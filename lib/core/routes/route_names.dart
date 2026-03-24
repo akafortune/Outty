@@ -11,6 +11,9 @@ class RouteNames {
   // onboarding routes
   static const String welcome = '/welcome';
   static const String onboarding = '/onboarding';
+  static const String photoUpload= '/photo-upload';
+  static const String interests= '/interests';
+  static const String locationPermission= '/location-permission';
 
   //main app routes
   static const String discover = '/discover';
