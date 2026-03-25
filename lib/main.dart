@@ -1,8 +1,12 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:outty/core/providers/theme_provider.dart';
+import 'package:outty/features/matching/providers/matching_provider.dart';
+import 'package:outty/features/matching/repositories/matching_repository.dart';
 import 'package:outty/features/onboarding/providers/onboarding_provider.dart';
 import 'package:outty/features/onboarding/repositories/onboarding_repository.dart';
+import 'package:outty/features/profile/providers/profile_provider.dart';
+import 'package:outty/features/profile/repositories/profile_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:outty/app.dart';
@@ -18,17 +22,24 @@ void main() async {
     debugPrint('Shared preferences initialization error: $e');
   }
 
-final onboardingRepository = OnboardingRepository();
+  final onboardingRepository = OnboardingRepository();
+  final matchingRepository = MatchingRepository();
+  final profileRepository = ProfileRepository();
 
   runApp(
     DevicePreview(
       builder: (context) => MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => ThemeProvider()),
-          ChangeNotifierProvider(create: (_) => OnboardingProvider(
-            repository: onboardingRepository,
-          )),
-        
+          ChangeNotifierProvider(
+            create: (_) => OnboardingProvider(repository: onboardingRepository),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => MatchingProvider(repository: matchingRepository),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => ProfileProvider(repository: profileRepository),
+          ),
         ],
         child: App(),
       ),

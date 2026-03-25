@@ -5,6 +5,7 @@ import 'package:outty/features/auth/screens/login_screen.dart';
 import 'package:outty/features/auth/screens/registration_screen.dart';
 import 'package:outty/features/auth/screens/verification_screen.dart';
 import 'package:outty/features/matching/screens/discover_screen.dart';
+import 'package:outty/features/matching/screens/match_details_screen.dart';
 import 'package:outty/features/onboarding/screens/interests_screen.dart';
 import 'package:outty/features/onboarding/screens/location_permission_screen.dart';
 import 'package:outty/features/onboarding/screens/photo_upload_screen.dart';
@@ -39,15 +40,20 @@ class AppRouter {
 
       case RouteNames.onboarding:
         return MaterialPageRoute(builder: (_) => const ProfileSetupScreen());
-      
+
       case RouteNames.photoUpload:
         return MaterialPageRoute(builder: (_) => const PhotoUploadScreen());
 
       case RouteNames.interests:
         return MaterialPageRoute(builder: (_) => const InterestsScreen());
-      
+
       case RouteNames.locationPermission:
-        return MaterialPageRoute(builder: (_) => const LocationPermissionScreen());
+        return MaterialPageRoute(
+          builder: (_) => const LocationPermissionScreen(),
+        );
+
+      case RouteNames.matchDetails:
+        return MaterialPageRoute(builder: (_) => const MatchDetailsScreen());
 
       default:
         return MaterialPageRoute(
