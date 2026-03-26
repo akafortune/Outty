@@ -114,7 +114,7 @@ class MatchingProvider extends ChangeNotifier {
 
   Future<MatchResult?> nextMatch() async {
     notifyListeners();
-    if (matches.isEmpty) {
+    if (matches.isNotEmpty) {
       try {
         _currentMatchIndex++;
         final profile = await _repository.getMatchById(
@@ -130,7 +130,7 @@ class MatchingProvider extends ChangeNotifier {
         notifyListeners();
         return null;
       }
-    } else if (_matches.isNotEmpty) {
+    } else if (_matches.isEmpty) {
       _fetchMatches();
       return null;
     }

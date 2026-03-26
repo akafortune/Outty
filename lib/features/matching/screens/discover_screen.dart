@@ -199,7 +199,13 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                         }
                       }
                     },
-                    onLongPress: () {},
+                    onLongPress: () {
+                      _showPhotoShareOptions(
+                        context,
+                        profile,
+                        _currentImagePage,
+                      );
+                    },
                     child: Hero(
                       tag: 'profile-${profile.id}-0',
                       child: Container(
@@ -521,5 +527,153 @@ class _DiscoverScreenState extends State<DiscoverScreen>
     );
   }
 
-  void _showShareOptions(BuildContext context, MatchResult profile) {}
+  void _showPhotoShareOptions(
+    BuildContext context,
+    MatchResult profile,
+    int currentImage,
+  ) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: isDarkMode ? Colors.grey.shade900 : Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Padding(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Photo Options',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            ListTile(
+              leading: Icon(
+                Icons.share,
+                color: isDarkMode ? Colors.white : Colors.black87,
+              ),
+              title: Text(
+                'Share this photo',
+                style: TextStyle(
+                  color: isDarkMode ? Colors.white : Colors.black87,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+
+            ListTile(
+              leading: Icon(
+                Icons.person,
+                color: isDarkMode ? Colors.white : Colors.black87,
+              ),
+              title: Text(
+                'View profile details',
+                style: TextStyle(
+                  color: isDarkMode ? Colors.white : Colors.black87,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, RouteNames.matchDetails);
+              },
+            ),
+
+            ListTile(
+              leading: Icon(
+                Icons.close,
+                color: isDarkMode ? Colors.white : Colors.black87,
+              ),
+              title: Text(
+                'Cancel',
+                style: TextStyle(
+                  color: isDarkMode ? Colors.white : Colors.black87,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showShareOptions(BuildContext context, MatchResult profile) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: isDarkMode ? Colors.grey.shade900 : Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Padding(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Share ${profile.name}\'s profile',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            ListTile(
+              leading: Icon(
+                Icons.person,
+                color: isDarkMode ? Colors.white : Colors.black87,
+              ),
+              title: Text(
+                'Share profile info',
+                style: TextStyle(
+                  color: isDarkMode ? Colors.white : Colors.black87,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+
+            ListTile(
+              leading: Icon(
+                Icons.photo,
+                color: isDarkMode ? Colors.white : Colors.black87,
+              ),
+              title: Text(
+                'Share current photo',
+                style: TextStyle(
+                  color: isDarkMode ? Colors.white : Colors.black87,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+
+            ListTile(
+              leading: Icon(
+                Icons.photo_library,
+                color: isDarkMode ? Colors.white : Colors.black87,
+              ),
+              title: Text(
+                'View all photos',
+                style: TextStyle(
+                  color: isDarkMode ? Colors.white : Colors.black87,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, RouteNames.matchDetails);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

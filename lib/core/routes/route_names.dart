@@ -18,4 +18,8 @@ class RouteNames {
   //main app routes
   static const String discover = '/discover';
   static const String matchDetails = '/match-details';
+  static const String chatList = '/chat-list';
+  static const String chat = '/chat';
+  static const String profile = '/profile';
+  static const String notification = '/notification';
 }

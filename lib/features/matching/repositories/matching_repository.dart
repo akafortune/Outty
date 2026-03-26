@@ -13,7 +13,7 @@ class MatchingRepository {
       age: 26,
       distance: '3 miles away',
       distanceValue: 3.0,
-      images: ['assets/images/user11.jpg', 'assets/images/user12.jpg'],
+      images: ['images/user11.jpg', 'images/user12.jpg'],
       bio:
           'Love hiking and outdoor adventures. Looking for someone to explore with!',
       interests: ['Hiking', 'Photography', 'Travel'],
@@ -28,7 +28,7 @@ class MatchingRepository {
       age: 28,
       distance: '5 miles away',
       distanceValue: 5.0,
-      images: ['assets/images/user51.jpg', 'assets/images/user52.jpg'],
+      images: ['images/user51.jpg', 'images/user52.jpg'],
       bio:
           'Coffee enthusiast and book lover. Let\'s chat about our favorite novels!',
       interests: ['Reading', 'Coffee', 'Music'],
@@ -44,11 +44,11 @@ class MatchingRepository {
       distance: '2 miles away',
       distanceValue: 2.0,
       images: [
-        'assets/images.user21.jpg',
-        'assets/images/user22.jpg',
-        'assets/images.user23.jpg',
-        'assets/images/user24.jpg',
-        'assets/images/user25.jpg',
+        'images/user21.jpg',
+        'images/user22.jpg',
+        'images/user23.jpg',
+        'images/user24.jpg',
+        'images/user25.jpg',
       ],
       bio:
           'Foodie and yoga instructor. Always looking for new restaurants to try!',
@@ -64,7 +64,7 @@ class MatchingRepository {
       age: 29,
       distance: '1 miles away',
       distanceValue: 1.0,
-      images: ['assets/images.user41.jpg'],
+      images: ['images/user41.jpg'],
       bio:
           'Tech enthusiast and fitness lover. Looking for someone to go on runs with!',
       interests: ['Technology', 'Fitness', 'Running', 'Cooking'],
@@ -79,7 +79,7 @@ class MatchingRepository {
       age: 27,
       distance: '4 miles away',
       distanceValue: 4.0,
-      images: ['assets/images.user31.jpg', 'assets/images.user32.jpeg'],
+      images: ['images/user31.jpg', 'images/user32.jpeg'],
       bio: 'Art lover and museum enthusiast. Always up for cultural events!',
       interests: ['Art', 'Museums', 'Culture', 'History'],
       isOnline: false,

@@ -22,17 +22,18 @@ class _MainLayoutState extends State<MainLayout> {
         Navigator.pushReplacementNamed(context, RouteNames.discover);
         break;
       case 1:
-        Navigator.pushReplacementNamed(context, RouteNames.discover);
+        Navigator.pushReplacementNamed(context, RouteNames.chatList);
         break;
       case 2:
-        Navigator.pushReplacementNamed(context, RouteNames.discover);
+        Navigator.pushReplacementNamed(context, RouteNames.profile);
         break;
       case 3:
-        Navigator.pushReplacementNamed(context, RouteNames.discover);
+        Navigator.pushReplacementNamed(context, RouteNames.notification);
         break;
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
