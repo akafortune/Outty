@@ -23,6 +23,8 @@ class MatchingProvider extends ChangeNotifier {
   int _currentMatchIndex = 0;
   bool get isIncognitoMode => _criteria.incognitoMode;
   bool get hasMatches => matches.isNotEmpty;
+  MatchResult? get currentProfile => _currentProfile;
+  List<ExclusiveContent>? get exclusiveContent => _exclusiveContent;
 
   MatchingProvider({required MatchingRepository repository})
     : _repository = repository {
@@ -65,10 +67,10 @@ class MatchingProvider extends ChangeNotifier {
 
   bool get isPremiumUser => _profileProvider?.isPremium ?? false;
 
-  MatchCriteria get criteria => criteria;
+  MatchCriteria get criteria => _criteria;
   List<MatchResult> get matches => _matches;
   bool get isLoading => _isLoading;
-  String? get error => error;
+  String? get error => _error;
   int get currentMatchIndex => _currentMatchIndex;
   MatchResult? get currentMatch =>
       _matches.isNotEmpty && _currentMatchIndex < matches.length
@@ -177,6 +179,7 @@ class MatchingProvider extends ChangeNotifier {
   void clearProfile() {
     _currentProfile = null;
     _error = null;
+    _exclusiveContent.clear();
     notifyListeners();
   }
 

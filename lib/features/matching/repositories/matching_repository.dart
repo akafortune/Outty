@@ -190,24 +190,26 @@ Join our exclusive masterclass with insights from top dating coaches and relatio
   Future<List<MatchResult>> getMatches(MatchCriteria criteria) async {
     await Future.delayed(const Duration(milliseconds: 800));
 
-    List<MatchResult> filteredMatches = _mockProfiles.where((match) {
-      bool ageMatch =
-          match.age >= criteria.minAge && match.age <= criteria.maxAge;
-      bool genderMatch = criteria.gender == 'All' || criteria.gender == 'Both';
-      bool onlineMatch = !criteria.onlineOnly || match.isOnline;
-      bool distanceMatch = true;
-      bool interestMatch =
-          criteria.interests.isEmpty ||
-          criteria.interests.any(
-            (interest) => match.interests.contains(interest),
-          );
+    // List<MatchResult> filteredMatches = _mockProfiles.where((match) {
+    //   bool ageMatch =
+    //       match.age >= criteria.minAge && match.age <= criteria.maxAge;
+    //   bool genderMatch = criteria.gender == 'All' || criteria.gender == 'Both';
+    //   bool onlineMatch = !criteria.onlineOnly || match.isOnline;
+    //   bool distanceMatch = true;
+    //   bool interestMatch =
+    //       criteria.interests.isEmpty ||
+    //       criteria.interests.any(
+    //         (interest) => match.interests.contains(interest),
+    //       );
 
-      return ageMatch &&
-          genderMatch &&
-          onlineMatch &&
-          distanceMatch &&
-          interestMatch;
-    }).toList();
+    //   return ageMatch &&
+    //       genderMatch &&
+    //       onlineMatch &&
+    //       distanceMatch &&
+    //       interestMatch;
+    // }).toList();
+
+    List<MatchResult> filteredMatches = _mockProfiles.toList();
 
     filteredMatches.sort((a, b) => a.distanceValue.compareTo(b.distanceValue));
 
