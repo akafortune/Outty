@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:outty/core/constants/color_constants.dart';
 import 'package:outty/core/constants/text_styles.dart';
 import 'package:outty/core/routes/route_names.dart';
 import 'package:outty/core/widdgets/custom_button.dart';
+
+import '../FirebaseMethods/auth.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -18,6 +21,34 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   bool _isPasswordVisible = false;
   bool _agreeToTerms = false;
+
+  final User? user = Auth().currentUser;
+  String? errorMessage = '';
+
+  void register() async {
+    try {
+      await authService.value.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      Navigator.pushNamed(context, RouteNames.verification);
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+    }
+  }
+
+  Future<void> createUserWithEmailAndPassword() async {
+    try {
+      await Auth().createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message;
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -204,7 +235,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   text: 'Create Account',
                   onPressed: _agreeToTerms
                       ? () {
-                          Navigator.pushNamed(context, RouteNames.verification);
+                          register();
                         }
                       : null,
                 ),

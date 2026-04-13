@@ -1,4 +1,5 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:outty/core/providers/theme_provider.dart';
 import 'package:outty/features/chat/providers/chat_provider.dart';
@@ -11,12 +12,15 @@ import 'package:outty/features/onboarding/providers/onboarding_provider.dart';
 import 'package:outty/features/onboarding/repositories/onboarding_repository.dart';
 import 'package:outty/features/profile/providers/profile_provider.dart';
 import 'package:outty/features/profile/repositories/profile_repository.dart';
+import 'package:outty/firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:outty/app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   try {
     final prefs = await SharedPreferences.getInstance();

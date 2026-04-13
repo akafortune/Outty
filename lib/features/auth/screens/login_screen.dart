@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:outty/app.dart';
 import 'package:outty/core/constants/color_constants.dart';
@@ -5,6 +7,7 @@ import 'package:outty/core/constants/text_styles.dart';
 import 'package:outty/core/routes/route_names.dart';
 import 'package:outty/core/widdgets/custom_button.dart';
 import 'package:outty/core/widdgets/custom_text_field.dart';
+import 'package:outty/features/auth/FirebaseMethods/auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,6 +21,26 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
   bool _rememberMe = false;
+  String errorHint = '';
+
+  void signIn() async {
+    try {
+      await authService.value.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        RouteNames.discover,
+        (route) => false,
+      );
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorHint = e.message ?? 'There was an error';
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -85,6 +108,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: isDarkMode
                         ? Colors.grey.shade400
                         : Colors.grey.shade700,
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+                Text(
+                  errorHint,
+                  style: AppTextStyles.bodyMediumLight.copyWith(
+                    color: isDarkMode ? AppColors.primary : AppColors.primary,
                   ),
                 ),
 
@@ -171,12 +202,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 CustomButton(
                   text: 'Sign In',
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      RouteNames.discover,
-                      (route) => false,
-                    );
+                  onPressed: () async {
+                    signIn();
                   },
                 ),
 
