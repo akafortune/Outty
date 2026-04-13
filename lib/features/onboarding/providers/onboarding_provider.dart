@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:outty/features/onboarding/repositories/onboarding_repository.dart';
 
@@ -23,6 +25,8 @@ class OnboardingProvider extends ChangeNotifier{
   List<String> get interests => _interests;
   List<String> get photos => _photos;
   bool get locationPermissionGranted => _locationPermissionGranted;
+
+  var db = FirebaseFirestore.instance;
 
   void updateName(String name){
     _name = name;
@@ -84,6 +88,47 @@ class OnboardingProvider extends ChangeNotifier{
       'photos' : _photos,
       'locationPermissionGranted' : _locationPermissionGranted,
     });
+
+    await commitOnboardingData();
   }
 
+  Future<void> commitOnboardingData() async{
+    final interestString = interestsToString();
+    final photoString = photosToString();
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final String uid = user!.uid;
+
+
+    final userStr = <String, dynamic>{
+      "name" : _name,
+      "bio" : _bio,
+      "birthdate" : birthDate,
+      "gender" : gender,
+      "interests" : interestString,
+      "photos" : photoString,
+      "userID" : uid
+    };
+
+    db.collection("Users").add(userStr);
+  }
+
+
+  String interestsToString(){
+    String interestString = "";
+    for(int i = 0; i < interests.length; i++){
+      interestString += interests[i];
+      interestString += ",";
+    }
+    return interestString;
+  }
+
+  String photosToString(){
+    String photoString = "";
+    for(int i = 0; i < photos.length; i++){
+      photoString += photos[i];
+      photoString += ",";
+    }
+    return photoString;
+  }
 }

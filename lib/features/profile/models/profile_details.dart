@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ProfileDetails {
   final String id;
   final String name;
@@ -57,6 +59,15 @@ class ProfileDetails {
       'joinDate': joinDate.toIso8601String(),
       'preferences': preferences,
     };
+  }
+
+  factory ProfileDetails.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot, SnapshotOptions? options) {
+    final data = snapshot.data();
+    List<String> interestList =data!['interests'].toString().split(',');
+
+
+
+    return ProfileDetails(id: data?['userID'], name: data?['name'], age: 0, location: 'demo location', bio: data?['bio'], interests: interestList, occupation: 'job', education: 'school', joinDate: DateTime.now(), preferences: new Map<String, bool>());
   }
 
   ProfileDetails copyWith({
