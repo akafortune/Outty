@@ -76,19 +76,42 @@ class MatchResult {
     };
   }
 
-  factory MatchResult.fromMap(Map<String, dynamic> map) {
+  // factory MatchResult.fromMap(Map<String, dynamic> map) {
+  //   return MatchResult(
+  //     id: map['id'] ?? '',
+  //     name: map['name'] ?? '',
+  //     age: map['age'] ?? '',
+  //     distance: map['distance'] ?? '',
+  //     distanceValue: map['distanceValue'] ?? 0.0,
+  //     images: List<String>.from(map['images'] ?? []),
+  //     bio: map['bio'] ?? '',
+  //     interests: List<String>.from(map['interests'] ?? []),
+  //     isOnline: map['isOnline'] ?? false,
+  //     occupation: map['occupation'] ?? '',
+  //     education: map['education'] ?? '',
+  //     badges: List<custom_badge.Badge>.from(
+  //       map['badges']?.map((e) => custom_badge.Badge.fromMap(e)) ?? [],
+  //     ),
+  //   );
+  // }
+
+  factory MatchResult.fromFirestore(Map<String, dynamic> map) {
+
+    List<String> imageList  = map['photos'].toString().split(',');
+    List<String> interestList = map['interests'].toString().split(',');
+
     return MatchResult(
-      id: map['id'] ?? '',
+      id: map['userID'] ?? '',
       name: map['name'] ?? '',
-      age: map['age'] ?? '',
-      distance: map['distance'] ?? '',
-      distanceValue: map['distanceValue'] ?? 0.0,
-      images: List<String>.from(map['images'] ?? []),
+      age:  25,
+      distance: 'demo distance',
+      distanceValue: 5.0,
+      images: imageList,
       bio: map['bio'] ?? '',
-      interests: List<String>.from(map['interests'] ?? []),
+      interests: interestList,
       isOnline: map['isOnline'] ?? false,
-      occupation: map['occupation'] ?? '',
-      education: map['education'] ?? '',
+      occupation:  'demo job',
+      education: 'demo education',
       badges: List<custom_badge.Badge>.from(
         map['badges']?.map((e) => custom_badge.Badge.fromMap(e)) ?? [],
       ),

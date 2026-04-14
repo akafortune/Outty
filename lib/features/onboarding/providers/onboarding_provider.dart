@@ -107,7 +107,10 @@ class OnboardingProvider extends ChangeNotifier{
       "gender" : gender,
       "interests" : interestString,
       "photos" : photoString,
-      "userID" : uid
+      "userID" : uid,
+      "likes" : [],
+      "dislikes" : [],
+      "matches" : [],
     };
 
     db.collection("Users").add(userStr);

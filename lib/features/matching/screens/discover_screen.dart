@@ -319,7 +319,7 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                                       spacing: 8,
                                       runSpacing: 8,
                                       children:
-                                          (profile.interests as List<String>)
+                                          (profile.interests)
                                               .map((interest) {
                                                 return Container(
                                                   padding: EdgeInsets.symmetric(
