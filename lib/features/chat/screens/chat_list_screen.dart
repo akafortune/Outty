@@ -140,9 +140,9 @@ class ChatListScreen extends StatelessWidget {
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         padding: EdgeInsets.symmetric(horizontal: 16),
-                        itemCount: newMatches.length,
+                        itemCount: chatRooms.length,
                         itemBuilder: (context, index) {
-                          final match = newMatches[index];
+                          final match = chatRooms[index];
                           return GestureDetector(
                             onTap: () {},
                             child: Padding(
@@ -180,14 +180,14 @@ class ChatListScreen extends StatelessWidget {
                                               width: 64,
                                               height: 64,
                                               child: Image.asset(
-                                                match['images'][0],
+                                                match.matchImage[0],
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                      if (match['isOnline'])
+                                      if (match.isMatchOnline)
                                         Positioned(
                                           right: 0,
                                           bottom: 0,
@@ -211,7 +211,7 @@ class ChatListScreen extends StatelessWidget {
 
                                   const SizedBox(height: 8),
                                   Text(
-                                    match['name'],
+                                    match.matchName,
                                     style: TextStyle(
                                       color: isDarkMode
                                           ? Colors.white

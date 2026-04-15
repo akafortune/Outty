@@ -1,7 +1,71 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:outty/features/chat/models/chat_message.dart';
 import 'package:outty/features/chat/models/chat_room.dart';
 
 class ChatRepository {
+  Future<List<ChatRoom>> getChatRoomsFromFirestore() async {
+    String id = await FirebaseAuth.instance.currentUser!.uid;
+
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> docs = [];
+
+    var chatRooms = await FirebaseFirestore.instance
+        .collection("ChatRooms")
+        .where(
+          Filter.or(
+            Filter("user1ID", isEqualTo: id),
+            Filter("user2ID", isEqualTo: id),
+          ),
+        )
+        .get()
+        .then((querySnapshot) {
+          if (querySnapshot.docs.isNotEmpty) {
+            docs = querySnapshot.docs;
+          }
+        });
+
+    List<ChatRoom> rooms = [];
+
+    for (int i = 0; i < docs.length; i++) {
+      var docData = docs[i].data();
+      var otherUserID = "";
+
+      if (docData["user1ID"] == id) {
+        otherUserID = docData["user2ID"];
+      } else {
+        otherUserID = docData["user1ID"];
+      }
+
+      var userDataQuery = await FirebaseFirestore.instance
+          .collection("Users")
+          .where("userID", isEqualTo: id)
+          .get();
+      var userDoc = userDataQuery.docs.first.data();
+
+      var otherUserQuery = await FirebaseFirestore.instance
+          .collection("Users")
+          .where("userID", isEqualTo: otherUserID)
+          .get();
+      var otherDoc = otherUserQuery.docs.first.data();
+
+      var photo = otherDoc["photos"].toString().split(",")[0];
+
+      ChatRoom room = ChatRoom(
+        id: docData["roomID"],
+        userId: id,
+        matchId: otherUserID,
+        matchName: otherDoc["name"],
+        matchImage: photo,
+        createdAt: DateTime.now(),
+        isMatchOnline: false,
+      );
+
+      rooms.add(room);
+    }
+
+    return rooms;
+  }
+
   Future<List<ChatRoom>> getChatRooms(String userId) async {
     await Future.delayed(const Duration(milliseconds: 800));
 
@@ -173,7 +237,14 @@ class ChatRepository {
   }
 
   Future<ChatRoom> createChatRoom(ChatRoom chatRoom) async {
-    await Future.delayed(const Duration(milliseconds: 500));
+    var db = FirebaseFirestore.instance;
+    String? auth = FirebaseAuth.instance.currentUser?.uid;
+
+    DocumentReference doc = await db.collection("ChatRooms").add({
+      'user1ID': auth,
+      'user2ID': chatRoom.id,
+    });
+    doc.collection('Chats').add({'room': doc});
     return chatRoom;
   }
 

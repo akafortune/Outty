@@ -8,8 +8,7 @@ import '../models/badge.dart' as custom_badge;
 import '../models/exclusive_content.dart';
 
 class MatchingRepository {
-
-  final rb  = FirebaseFirestore.instance;
+  final rb = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
 
   final List<MatchResult> _mockProfiles = [
@@ -194,7 +193,6 @@ Join our exclusive masterclass with insights from top dating coaches and relatio
   }
 
   Future<List<MatchResult>> getMatches(MatchCriteria criteria) async {
-    
     final fbDocs = await FirebaseFirestore.instance.collection("Users").get();
     // List<MatchResult> filteredMatches = _mockProfiles.where((match) {
     //   bool ageMatch =
@@ -215,7 +213,9 @@ Join our exclusive masterclass with insights from top dating coaches and relatio
     //       interestMatch;
     // }).toList();
 
-    List<MatchResult> filteredMatches = fbDocs.docs.map((doc) => MatchResult.fromFirestore(doc.data())).toList();
+    List<MatchResult> filteredMatches = fbDocs.docs
+        .map((doc) => MatchResult.fromFirestore(doc.data()))
+        .toList();
 
     if (!criteria.incognitoMode || !_isPremium) {
       _updateLastActive();
@@ -260,39 +260,56 @@ Join our exclusive masterclass with insights from top dating coaches and relatio
   }
 
   Future<void> likeProfile(String profileId) async {
-    rb.collection("Users").where("userID", isEqualTo: auth.currentUser!.uid).get().then((querySnapshot) {
-      if (querySnapshot.docs.isNotEmpty) {
-        var userDoc = querySnapshot.docs.first;
-        userDoc.reference.update({
-          "likes": FieldValue.arrayUnion([profileId])
+    rb
+        .collection("Users")
+        .where("userID", isEqualTo: auth.currentUser!.uid)
+        .get()
+        .then((querySnapshot) {
+          if (querySnapshot.docs.isNotEmpty) {
+            var userDoc = querySnapshot.docs.first;
+            userDoc.reference.update({
+              "likes": FieldValue.arrayUnion([profileId]),
+            });
+          }
         });
-      }
-    });
 
-    var likeCon = await rb.collection("Users").where("likes", arrayContains: auth.currentUser!.uid).get();
+    var likeCon = await rb
+        .collection("Users")
+        .where("likes", arrayContains: auth.currentUser!.uid)
+        .get();
 
-    if(likeCon.docs.isNotEmpty){
-      var userDoc = await rb.collection("Users").where("userID", isEqualTo: auth.currentUser!.uid).get().then(
-        (querySnapshot){
-          if(querySnapshot.docs.isNotEmpty){
-            var userDoc = querySnapshot.docs.first;
-            userDoc.reference.update({
-              "matches": FieldValue.arrayUnion([profileId])
-            });
-          }
-        }
-      );
+    if (likeCon.docs.isNotEmpty) {
+      var userDoc = await rb
+          .collection("Users")
+          .where("userID", isEqualTo: auth.currentUser!.uid)
+          .get()
+          .then((querySnapshot) {
+            if (querySnapshot.docs.isNotEmpty) {
+              var userDoc = querySnapshot.docs.first;
+              userDoc.reference.update({
+                "matches": FieldValue.arrayUnion([profileId]),
+              });
+            }
+          });
 
-      var likeDoc = await rb.collection("Users").where("userID", isEqualTo: profileId).get().then(
-        (querySnapshot){
-          if(querySnapshot.docs.isNotEmpty){
-            var userDoc = querySnapshot.docs.first;
-            userDoc.reference.update({
-              "matches": FieldValue.arrayUnion([auth.currentUser!.uid])
-            });
-          }
-        }
-      );
+      var likeDoc = await rb
+          .collection("Users")
+          .where("userID", isEqualTo: profileId)
+          .get()
+          .then((querySnapshot) {
+            if (querySnapshot.docs.isNotEmpty) {
+              var userDoc = querySnapshot.docs.first;
+              userDoc.reference.update({
+                "matches": FieldValue.arrayUnion([auth.currentUser!.uid]),
+              });
+            }
+          });
+
+      FirebaseFirestore.instance.collection("ChatRooms").add({
+        "user1ID": auth.currentUser!.uid,
+        "user2ID": profileId,
+        "roomID": profileId + auth.currentUser!.uid,
+      });
     }
   }
 
@@ -300,7 +317,7 @@ Join our exclusive masterclass with insights from top dating coaches and relatio
     rb.collection("Likes").add({
       "userFromID": auth.currentUser!.uid,
       "userToID": profileId,
-      "likeType" : "dislike",
+      "likeType": "dislike",
     });
   }
 

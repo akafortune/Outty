@@ -34,7 +34,7 @@ class ChatProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      _chatRooms = await _repository.getChatRooms(_currentUserId);
+      _chatRooms = await _repository.getChatRoomsFromFirestore();
       _isLoading = false;
       notifyListeners();
     } catch (e) {
