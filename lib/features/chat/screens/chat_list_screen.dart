@@ -344,7 +344,8 @@ class ChatListScreen extends StatelessWidget {
                                 ],
                               ),
                               child: InkWell(
-                                onTap: () {
+                                onTap: () async {
+                                  await chatProvider.SetChatMessageIndex(index);
                                   Navigator.pushNamed(
                                     context,
                                     RouteNames.chat,

@@ -305,11 +305,13 @@ Join our exclusive masterclass with insights from top dating coaches and relatio
             }
           });
 
-      FirebaseFirestore.instance.collection("ChatRooms").add({
-        "user1ID": auth.currentUser!.uid,
-        "user2ID": profileId,
-        "roomID": profileId + auth.currentUser!.uid,
-      });
+      var matchDoc = await FirebaseFirestore.instance
+          .collection("ChatRooms")
+          .add({
+            "user1ID": auth.currentUser!.uid,
+            "user2ID": profileId,
+            "roomID": profileId + auth.currentUser!.uid,
+          });
     }
   }
 

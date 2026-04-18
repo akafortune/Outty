@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:outty/core/enums/message_type.dart';
@@ -12,7 +13,7 @@ class ChatProvider extends ChangeNotifier {
   Map<String, List<ChatMessage>> _messages = {};
   bool _isLoading = false;
   String? _error;
-  String _currentUserId = 'current_user';
+  String _currentUserId = FirebaseAuth.instance.currentUser!.uid;
 
   ChatProvider({required ChatRepository repository})
     : _repository = repository {
@@ -26,6 +27,12 @@ class ChatProvider extends ChangeNotifier {
 
   List<ChatMessage> getMessagesForChatRoom(String chatRoomId) {
     return _messages[chatRoomId] ?? [];
+  }
+
+  Future<void> SetChatMessageIndex(int index) async {
+    List<ChatRoom> rooms = await _repository.getChatRoomsFromFirestore();
+
+    ChatRepository.otherID = rooms[index].matchId;
   }
 
   Future<void> _loadChatRooms() async {
@@ -50,7 +57,7 @@ class ChatProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final messages = await _repository.getChatMessages(chatRoomId);
+      final messages = await _repository.getChatMessagesFromFirestore();
       _messages[chatRoomId] = messages;
 
       await _repository.markMessageAsRead(chatRoomId);

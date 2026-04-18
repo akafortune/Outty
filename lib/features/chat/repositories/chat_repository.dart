@@ -1,9 +1,106 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:outty/features/chat/models/chat_message.dart';
 import 'package:outty/features/chat/models/chat_room.dart';
 
 class ChatRepository {
+  static String otherID = "";
+  Future<List<ChatMessage>> getChatMessagesFromFirestore() async {
+    String userID = await FirebaseAuth.instance.currentUser!.uid;
+    String chatRoomID = "";
+    List<Map<String, dynamic>> chatFormatted = [];
+    var chatRoom = await FirebaseFirestore.instance
+        .collection("ChatRooms")
+        .where(
+          Filter.or(
+            Filter.and(
+              Filter("user1ID", isEqualTo: userID),
+              Filter("user2ID", isEqualTo: otherID),
+            ),
+            Filter.and(
+              Filter("user1ID", isEqualTo: otherID),
+              Filter("user2ID", isEqualTo: userID),
+            ),
+          ),
+        )
+        .get()
+        .then((querySnapshot) {
+          if (querySnapshot.docs.isNotEmpty) {
+            chatRoomID = querySnapshot.docs.first.id;
+          }
+        });
+
+    var messages = await FirebaseFirestore.instance
+        .collection("ChatRooms")
+        .doc(chatRoomID)
+        .collection("Chats")
+        .get()
+        .then((querySnapshot) {
+          for (var docSnapshot in querySnapshot.docs) {
+            chatFormatted.add(docSnapshot.data());
+          }
+        });
+
+    List<ChatMessage> messageList = [];
+
+    for (Map<String, dynamic> entry in chatFormatted) {
+      String receiver;
+
+      if (entry["senderID"] == userID) {
+        receiver = otherID;
+      } else {
+        receiver = userID;
+      }
+
+      ChatMessage msg = ChatMessage(
+        id: Random().nextInt(100000).toString(),
+        senderId: entry["senderID"],
+        receiverID: receiver,
+        content: entry["content"],
+        timestamp: DateTime.now(),
+      );
+
+      messageList = messageList.reversed.toList();
+
+      messageList.add(msg);
+    }
+
+    return messageList;
+  }
+
+  void AddMessageToChatRoom(String message) async {
+    String userID = await FirebaseAuth.instance.currentUser!.uid;
+    var docID;
+    var chatRoom = await FirebaseFirestore.instance
+        .collection("ChatRooms")
+        .where(
+          Filter.or(
+            Filter.and(
+              Filter("user1ID", isEqualTo: userID),
+              Filter("user2ID", isEqualTo: otherID),
+            ),
+            Filter.and(
+              Filter("user1ID", isEqualTo: otherID),
+              Filter("user2ID", isEqualTo: userID),
+            ),
+          ),
+        )
+        .get()
+        .then((querySnapshot) {
+          if (querySnapshot.docs.isNotEmpty) {
+            docID = querySnapshot.docs.first.id;
+          }
+        });
+
+    var chatMessages = FirebaseFirestore.instance
+        .collection("ChatRooms")
+        .doc(docID)
+        .collection("Chats")
+        .add({"content": message, "senderID": userID});
+  }
+
   Future<List<ChatRoom>> getChatRoomsFromFirestore() async {
     String id = await FirebaseAuth.instance.currentUser!.uid;
 
