@@ -82,10 +82,6 @@ class _MainLayoutState extends State<MainLayout> {
               icon: Icon(Icons.person_outline),
               label: 'Profile',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications_none),
-              label: 'Activity',
-            ),
           ],
         ),
       ),

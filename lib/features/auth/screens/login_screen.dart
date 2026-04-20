@@ -187,14 +187,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
-                    CustomButton(
-                      text: 'Forgot Password',
-                      type: ButtonType.text,
-                      isFullWidth: false,
-                      onPressed: () async {
-                        Navigator.pushNamed(context, RouteNames.forgotPassword);
-                      },
-                    ),
+                    // CustomButton(
+                    //   text: 'Forgot Password',
+                    //   type: ButtonType.text,
+                    //   isFullWidth: false,
+                    //   onPressed: () async {
+                    //     Navigator.pushNamed(context, RouteNames.forgotPassword);
+                    //   },
+                    // ),
                   ],
                 ),
 
@@ -244,29 +244,29 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 24),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _socialLoginButton(
-                          icon: Icons.g_mobiledata_rounded,
-                          color: isDarkMode ? Colors.white : Colors.black,
-                          onPressed: () {},
-                          isDarkMode: isDarkMode,
-                        ),
-                        const SizedBox(width: 20),
-                        _socialLoginButton(
-                          icon: Icons.apple_rounded,
-                          color: isDarkMode ? Colors.white : Colors.black,
-                          onPressed: () {},
-                          isDarkMode: isDarkMode,
-                        ),
-                        const SizedBox(width: 20),
-                        _socialLoginButton(
-                          icon: Icons.facebook_rounded,
-                          color: Color(0xFF1877F2),
-                          onPressed: () {},
-                          isDarkMode: isDarkMode,
-                        ),
-                        const SizedBox(width: 20),
-                      ],
+                      // children: [
+                      //   _socialLoginButton(
+                      //     icon: Icons.g_mobiledata_rounded,
+                      //     color: isDarkMode ? Colors.white : Colors.black,
+                      //     onPressed: () {},
+                      //     isDarkMode: isDarkMode,
+                      //   ),
+                      //   const SizedBox(width: 20),
+                      //   _socialLoginButton(
+                      //     icon: Icons.apple_rounded,
+                      //     color: isDarkMode ? Colors.white : Colors.black,
+                      //     onPressed: () {},
+                      //     isDarkMode: isDarkMode,
+                      //   ),
+                      //   const SizedBox(width: 20),
+                      //   _socialLoginButton(
+                      //     icon: Icons.facebook_rounded,
+                      //     color: Color(0xFF1877F2),
+                      //     onPressed: () {},
+                      //     isDarkMode: isDarkMode,
+                      //   ),
+                      //   const SizedBox(width: 20),
+                      // ],
                     ),
                   ],
                 ),

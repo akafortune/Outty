@@ -121,6 +121,7 @@ class NotificationRepository {
         content: notification.message,
         timestamp: DateTime.now().subtract(const Duration(hours: 3)),
         isRead: false,
+        msgNum: 0,
       ),
       unreadCount: 1,
     );

@@ -12,6 +12,7 @@ class ChatMessage {
   final String? replyToId;
   final String? replyToContent;
   final String? replyToSenderId;
+  final int msgNum;
 
   ChatMessage({
     required this.id,
@@ -25,6 +26,7 @@ class ChatMessage {
     this.replyToId,
     this.replyToContent,
     this.replyToSenderId,
+    required this.msgNum,
   });
 
   ChatMessage copyWith({
@@ -39,6 +41,7 @@ class ChatMessage {
     String? replyToId,
     String? replyToContent,
     String? replyToSenderId,
+    int? msgNum,
   }) {
     return ChatMessage(
       id: id ?? this.id,
@@ -52,6 +55,7 @@ class ChatMessage {
       replyToId: replyToId ?? this.replyToId,
       replyToContent: replyToContent ?? this.replyToContent,
       replyToSenderId: replyToSenderId ?? this.replyToSenderId,
+      msgNum: msgNum ?? this.msgNum,
     );
   }
 
@@ -68,6 +72,7 @@ class ChatMessage {
       'replyToId': replyToId,
       'replyToContent': replyToContent,
       'replyToSenderId': replyToSenderId,
+      'msgNum': msgNum,
     };
   }
 
@@ -86,6 +91,7 @@ class ChatMessage {
       replyToId: map['replyToId'] ?? '',
       replyToContent: map['replyToContent'] ?? '',
       replyToSenderId: map['replyToSenderId'] ?? '',
+      msgNum: map['msgNum'] ?? '',
     );
   }
 }

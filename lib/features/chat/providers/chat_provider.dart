@@ -92,6 +92,7 @@ class ChatProvider extends ChangeNotifier {
         timestamp: DateTime.now(),
         isRead: false,
         mediaUrl: mediaUrl,
+        msgNum: 0,
       );
 
       if (_messages.containsKey(chatRoomId)) {
@@ -173,6 +174,7 @@ class ChatProvider extends ChangeNotifier {
         isRead: false,
         mediaUrl: mediaUrl,
         messageType: messageType,
+        msgNum: 0,
       );
 
       if (_messages.containsKey(chatRoomId)) {
@@ -220,6 +222,7 @@ class ChatProvider extends ChangeNotifier {
         replyToId: replyToMessage.id,
         replyToContent: replyToMessage.content,
         replyToSenderId: replyToMessage.senderId,
+        msgNum: 0,
       );
 
       if (_messages.containsKey(chatRoomId)) {

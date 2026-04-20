@@ -31,7 +31,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-      Navigator.pushNamed(context, RouteNames.verification);
+      Navigator.pushNamed(context, RouteNames.onboarding);
     } on FirebaseAuthException catch (e) {
       print(e.message);
     }

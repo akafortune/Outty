@@ -193,7 +193,14 @@ Join our exclusive masterclass with insights from top dating coaches and relatio
   }
 
   Future<List<MatchResult>> getMatches(MatchCriteria criteria) async {
-    final fbDocs = await FirebaseFirestore.instance.collection("Users").get();
+    var userID = FirebaseAuth.instance.currentUser!.uid;
+
+    var filteredDocs;
+
+    final fbDocs = await FirebaseFirestore.instance
+        .collection("Users")
+        .where("userID", isNotEqualTo: userID)
+        .get();
     // List<MatchResult> filteredMatches = _mockProfiles.where((match) {
     //   bool ageMatch =
     //       match.age >= criteria.minAge && match.age <= criteria.maxAge;
