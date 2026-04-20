@@ -38,6 +38,12 @@ class _LoginScreenState extends State<LoginScreen> {
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorHint = e.message ?? 'There was an error';
+
+        if (e.code == 'wrong-password') {
+          errorHint = 'Incorrect password';
+        } else if (e.code == '') {
+          print('');
+        }
       });
     }
   }

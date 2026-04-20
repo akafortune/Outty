@@ -1,3 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:outty/features/chat/repositories/chat_repository.dart';
 import 'package:outty/features/matching/models/match_criteria.dart';
 import 'package:outty/features/matching/providers/matching_provider.dart';
@@ -6,10 +10,16 @@ import 'package:outty/features/onboarding/providers/onboarding_provider.dart';
 import 'package:outty/features/onboarding/repositories/onboarding_repository.dart';
 import 'package:outty/features/profile/providers/profile_provider.dart';
 import 'package:outty/features/profile/repositories/profile_repository.dart';
+import 'package:outty/firebase_options.dart';
 import 'package:test/test.dart';
 
-void main() {
+void main() async {
   //Unit Tests
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   group('Unit Tests', () {
     test("Update name in onboarding provider works", () {
       final OnboardingProvider provider = OnboardingProvider(
