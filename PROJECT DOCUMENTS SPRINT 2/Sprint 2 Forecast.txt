@@ -1,0 +1,17 @@
+Team 2:
+(Connor McDonald, Michael Ariwodo, Durgesh Chigurupati, Yasoda Kuchampudi, Rahaf Kokash)
+
+March 30th, 2026,
+
+Emerging Software Engineering Processes
+
+Sprint #2 Forecast
+
+	Our forecast for this sprint is that we will be able to finish around 60-70 story points inside of this next sprint, 
+	this largely outscales our last sprint where we finished around 30 story points. This would seem to violate the Yesterday's Weather 
+	method, where if we assume that team size and sprint length remain consistent then the achievable number of story points should be the same. 
+	I feel that this would not be a proper heuristic to evaluate this sprint with, when we began the last sprint none of us knew any Flutter / Dart 
+	(much less any adjacent language like React). We now know this language and are able to operate more efficiently. You could argue that we have 
+	a similar challenge this sprint with learning Firebase, however our preliminary research indicates that Firebase is a lot easier to use in a simple 
+	fashion than Dart/Flutter is. We propose that we are around twice as efficient as we were in sprint 1, and that learning firebase will not significantly 
+	slow us down, so we should be able to accomplish around double the amount of story points (60-70 points).

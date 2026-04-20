@@ -1,0 +1,49 @@
+Team 2:
+(Connor McDonald, Michael Ariwodo, Durgesh Chigurupati, Yasoda Kuchampudi, Rahaf Kokash)
+
+April 19th, 2026,
+
+Emerging Software Engineering Processes
+
+Sprint Review
+
+In this sprint the team wanted to achieve the following:
+
+? All UI and proper routing for basic screens finished, this includes:
+? Splash
+? Welcome
+? Login
+? Sign Up
+? Onboarding
+¦ Name, Age, Location
+¦ Interests
+? Email Verification
+? Forgot Password Email Verification
+? Matching
+? Chat List
+? Chat Room
+? Profile Details
+? Notifications
+? Edit Profile
+? See Match Details
+
+In the actual term of this sprint we achieved:
+
+? UI and proper routing for most basic screens excluding
+? Forgot Password Email Verification
+? Edit Profile
+? See Match Details
+? Some features within the chat room
+? Basic models, providers and repository structures for
+? Matching
+? Onboarding
+? Chatting
+? Notifications
+
+Our rationale for the missed items + extra items:
+
+	When planning out the sprint most of us were unfamiliar with web development and we assumed that the easiest way of tackling it would be to start by developing out the UI fully and then injecting the data from a firebase repository when we were finished. Once we began development we realized that this was in fact not the case, that without data it was hard to actually test whether the UI was working properly and that we wanted to have some idea how the data would be formatted when writing the code for the UI and widgets, so we decided to scale back the number of screens we wanted finished from "all" to "most" to make room for the beginnings of proper data structures, by this metric I would say that we actually exceeded our original plans for this sprint..
+
+
+
+

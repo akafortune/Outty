@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Badge {
   final String name;
-  final IconData icon;
+  final String icon;
   final String description;
   final int requiredMonths;
   final Color color;
@@ -20,7 +20,7 @@ class Badge {
   Map<String, dynamic> toMap() {
     return {
       'name': name,
-      'icon': icon.codePoint,
+      'icon': 'icon.codePoint',
       'description': description,
       'requiredMoths': requiredMonths,
       'color': color.value,
@@ -31,7 +31,7 @@ class Badge {
   factory Badge.fromMap(Map<String, dynamic> map) {
     return Badge(
       name: map['name'],
-      icon: IconData(map['icon'] ?? 0, fontFamily: 'MaterialIcons'),
+      icon: map['icon'],
       description: map['description'] ?? '',
       requiredMonths: map['requiredMonths'] ?? 0,
       color: Color(map['color'] ?? Colors.blue.value),
@@ -48,35 +48,35 @@ class Badge {
   static const List<Badge> allBadges = [
     Badge(
       name: 'New Premium',
-      icon: Icons.star,
+      icon: '',
       description: 'Welcome to Premium!',
       requiredMonths: 0,
       color: Colors.blue,
     ),
     Badge(
       name: 'Premium Explorer',
-      icon: Icons.explore,
+      icon: '',
       description: '1 month of premium experience',
       requiredMonths: 1,
       color: Colors.green,
     ),
     Badge(
       name: 'Premium Veteran',
-      icon: Icons.military_tech,
+      icon: '',
       description: '3 months of premium experience',
       requiredMonths: 3,
       color: Colors.amber,
     ),
     Badge(
       name: 'Premium Elite',
-      icon: Icons.workspace_premium,
+      icon: '',
       description: '6 months of premium experience',
       requiredMonths: 6,
       color: Colors.purple,
     ),
     Badge(
       name: 'Premium Legend',
-      icon: Icons.auto_awesome,
+      icon: '',
       description: '1 year of premium experience',
       requiredMonths: 12,
       color: Colors.red,

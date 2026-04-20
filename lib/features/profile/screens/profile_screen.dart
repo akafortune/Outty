@@ -10,18 +10,12 @@ import 'package:provider/provider.dart';
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
-  
-
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-
-
 class _ProfileScreenState extends State<ProfileScreen> {
-
   Map<String, dynamic> userDoc = new Map<String, dynamic>();
-    
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var db = FirebaseFirestore.instance;
 
     Map<String, dynamic> user = {
-      'name': userDoc['name']?? '',
+      'name': userDoc['name'] ?? '',
       'age': 27,
       'location': 'New York, NY',
       'bio': userDoc['bio'] ?? '',
@@ -51,42 +45,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
       'education': 'Stanford University',
     };
 
-    
-  
-  List<String> GetInterestList(){
-    List<String> interestList = userDoc['interests'].toString().split(',');
-    return interestList;
-  }
-
-  List<String> GetPhotoList(){
-    List<String> photoList = userDoc['photos'].toString().split(',');
-    return photoList;
-  }
-
-  void UpdateUserDisplay(){
-    user = {
-            'name': userDoc['name']?? '',
-            'age': 27,
-            'location': 'New York, NY',
-            'bio': userDoc['bio'] ?? '',
-            'images': GetPhotoList(),
-            'interests': GetInterestList(),
-            'occupation': 'Software Developer',
-            'education': 'Stanford University',
-         };
-  }
-
-  Future<void> LoadDataFromFirestore() async{
-      userDoc = await db.collection("Users").where("userID", isEqualTo: uid).get().then(
-        (querySnapshot){
-          userDoc = querySnapshot.docs[0].data();
-          UpdateUserDisplay();
-          return userDoc;
-        }
-      );
+    List<String> GetInterestList() {
+      List<String> interestList = userDoc['interests'].toString().split(',');
+      return interestList;
     }
-    
-    
+
+    List<String> GetPhotoList() {
+      List<String> photoList = userDoc['photos'].toString().split(',');
+      return photoList;
+    }
+
+    void UpdateUserDisplay() {
+      user = {
+        'name': userDoc['name'] ?? '',
+        'age': 27,
+        'location': 'New York, NY',
+        'bio': userDoc['bio'] ?? '',
+        'images': GetPhotoList(),
+        'interests': GetInterestList(),
+        'occupation': 'Software Developer',
+        'education': 'Stanford University',
+      };
+    }
+
+    Future<void> LoadDataFromFirestore() async {
+      userDoc = await db
+          .collection("Users")
+          .where("userID", isEqualTo: uid)
+          .get()
+          .then((querySnapshot) {
+            userDoc = querySnapshot.docs[0].data();
+            UpdateUserDisplay();
+            return userDoc;
+          });
+    }
 
     return FutureBuilder(
       future: LoadDataFromFirestore(),
@@ -180,7 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ],
                 ),
-        
+
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: EdgeInsets.all(20.0),
@@ -202,9 +194,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ),
-        
+
                         const SizedBox(height: 24),
-        
+
                         Consumer<MatchingProvider>(
                           builder: (context, matchingProvider, child) {
                             final badges = matchingProvider.getPremiumBadges();
@@ -231,30 +223,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         vertical: 6,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: badge.color.withValues(alpha: 0.1),
+                                        color: badge.color.withValues(
+                                          alpha: 0.1,
+                                        ),
                                         borderRadius: BorderRadius.circular(20),
                                         border: Border.all(
-                                          color: badge.color.withValues(alpha: 0.5),
+                                          color: badge.color.withValues(
+                                            alpha: 0.5,
+                                          ),
                                           width: 1,
                                         ),
                                       ),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Icon(
-                                            badge.icon,
-                                            size: 16,
-                                            color: badge.color,
-                                          ),
-                                          SizedBox(width: 4),
-                                          Text(
-                                            badge.name,
-                                            style: TextStyle(
-                                              color: badge.color,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ],
                                       ),
                                     );
                                   }).toList(),
@@ -284,7 +265,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         const SizedBox(height: 12),
-        
+
                         Wrap(
                           spacing: 8,
                           runSpacing: 8,
@@ -302,7 +283,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     : AppColors.primary.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
-                                  color: AppColors.primary.withValues(alpha: 0.5),
+                                  color: AppColors.primary.withValues(
+                                    alpha: 0.5,
+                                  ),
                                   width: 1,
                                 ),
                               ),
@@ -328,7 +311,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-        
+
                         const SizedBox(height: 12),
                         _infoItem(
                           icon: Icons.work_outline,
@@ -336,7 +319,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           value: user['occupation'],
                           isDarkMode: isDarkMode,
                         ),
-        
+
                         const SizedBox(height: 8),
                         _infoItem(
                           icon: Icons.school_outlined,
@@ -344,7 +327,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           value: user['education'],
                           isDarkMode: isDarkMode,
                         ),
-        
+
                         const SizedBox(height: 8),
                         _infoItem(
                           icon: Icons.location_on_outlined,
@@ -352,9 +335,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           value: user['location'],
                           isDarkMode: isDarkMode,
                         ),
-        
+
                         const SizedBox(height: 32),
-        
+
                         OutlinedButton.icon(
                           onPressed: () {},
                           label: Text('Settings'),
@@ -374,19 +357,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ),
-        
+
                         const SizedBox(height: 50),
                       ],
                     ),
                   ),
                 ),
-        
+
                 SliverToBoxAdapter(),
               ],
             ),
           ),
         );
-      }
+      },
     );
   }
 
@@ -420,6 +403,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ],
     );
   }
-
-  
 }

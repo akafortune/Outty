@@ -1,0 +1,30 @@
+Daily Scrum Report
+Sprint Goal: Work on Firebase backend setup, including Fire store database and initial integration.
+
+1. What has transpired in the past 24 hours? 
+* Connor: Significant strides have made towards constructing a framework within Firebase; including creating and setting up Fire store collections, however there have 
+also been many Trello cards that have been pushed through to completion. There is considerable amount of dropped story points on each of the last versions of the burn down graphs.
+* Durgesh : Reviewed calling into the Firebase firebase functions and doing some additional analysis on the associated Trello cards to see how they are related to completion of the Backend. 
+* Rahaf Kokash: Explored Firebase structure and assisted with backend understanding.
+* Yasoda Kuchampudi: Began initial Firebase configuration tasks.
+* Micheal Ariwodo: Updated Trello board based on completed backend tasks and tracked progress.
+(In conclusion, Based on Trello dates and burndown chart: progress was slower earlier, then increased significantly as backend work was completed.).
+
+2. What will we do in the next 24 hours?
+* Connor: Continue working on Firebase backend and finalize remaining database tasks.
+* Durgesh: Assist with documentation and support Firebase-related work.
+* Rahaf Kokash: Start connecting frontend components to Firebase backend.
+* Yasoda Kuchampudi: Continue Firebase setup and test database operations.
+* Micheal Ariwodo: Monitor Trello updates and ensure tasks are aligned with sprint progress..
+
+3. Impediments & Removal Plan
+Impediments:
+* Slow start in the sprint (as reflected in early Trello activity and burndown chart)
+* Most Firebase work handled by one team member
+* Initial difficulty understanding Firebase setup
+Removal Plan:
+* Better task distribution among all team members
+* Earlier start on assigned tasks
+* Regular communication and quick check-ins
+* Use Trello and burndown chart to stay aligned with progress
+
