@@ -84,6 +84,7 @@ class MatchingProvider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       _error = e.toString();
+      print(error);
       _isLoading = false;
       notifyListeners();
     }

@@ -26,7 +26,8 @@ class OnboardingProvider extends ChangeNotifier {
   DateTime? _birthDate;
   String _gender = '';
   List<String> _interests = [];
-  List<String> _photos = [];
+  List<Uint8List> _photos = [];
+  List<String> _photoURLs = [];
   bool _locationPermissionGranted = false;
 
   String get name => _name;
@@ -34,7 +35,8 @@ class OnboardingProvider extends ChangeNotifier {
   DateTime? get birthDate => _birthDate;
   String get gender => _gender;
   List<String> get interests => _interests;
-  List<String> get photos => _photos;
+  List<Uint8List> get photos => _photos;
+  List<String> get photoURLs => _photoURLs;
   bool get locationPermissionGranted => _locationPermissionGranted;
 
   var db = FirebaseFirestore.instance;
@@ -70,24 +72,18 @@ class OnboardingProvider extends ChangeNotifier {
   }
 
   void addPhoto(XFile photo) async {
-
-    
-
     final supabase = u.Supabase.instance.client;
+
+    final photoPath = photo.path.split("/").last;
 
     final Uint8List fileBytes = await photo.readAsBytes();
 
-    final String fullPath = await supabase.storage.from('Images').uploadBinary("public/", fileBytes);
-    
+    await supabase.storage.from('Images').uploadBinary(photoPath, fileBytes);
 
-    _photos.add(photo.path);
+    _photos.add(fileBytes);
+    _photoURLs.add(photoPath);
     notifyListeners();
   }
-
-  Future<void> main() async {
-    
-  }
-
 
   void removePhoto(String photoUrl) {
     _photos.remove(photoUrl);
@@ -99,8 +95,8 @@ class OnboardingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addPhotos(List<String> photoUrls) {
-    _photos.addAll(photoUrls);
+  void addPhotos(List<Uint8List> photos) {
+    _photos.addAll(photos);
     notifyListeners();
   }
 
@@ -111,7 +107,7 @@ class OnboardingProvider extends ChangeNotifier {
       'birthDate': _birthDate?.toIso8601String(),
       'gender': _gender,
       'interests': _interests,
-      'photos': _photos,
+      'photos': _photoURLs,
       'locationPermissionGranted': _locationPermissionGranted,
     });
 
@@ -152,8 +148,8 @@ class OnboardingProvider extends ChangeNotifier {
 
   String photosToString() {
     String photoString = "";
-    for (int i = 0; i < photos.length; i++) {
-      photoString += photos[i];
+    for (int i = 0; i < photoURLs.length; i++) {
+      photoString += photoURLs[i];
       photoString += ",";
     }
     return photoString;

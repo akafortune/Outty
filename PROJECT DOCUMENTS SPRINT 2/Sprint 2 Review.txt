@@ -15,8 +15,8 @@ In this sprint the team wanted to achieve the following:
 ? Login
 ? Sign Up
 ? Onboarding
-¦ Name, Age, Location
-¦ Interests
+ï¿½ Name, Age, Location
+ï¿½ Interests
 ? Email Verification
 ? Forgot Password Email Verification
 ? Matching
@@ -42,7 +42,12 @@ In the actual term of this sprint we achieved:
 
 Our rationale for the missed items + extra items:
 
-	When planning out the sprint most of us were unfamiliar with web development and we assumed that the easiest way of tackling it would be to start by developing out the UI fully and then injecting the data from a firebase repository when we were finished. Once we began development we realized that this was in fact not the case, that without data it was hard to actually test whether the UI was working properly and that we wanted to have some idea how the data would be formatted when writing the code for the UI and widgets, so we decided to scale back the number of screens we wanted finished from "all" to "most" to make room for the beginnings of proper data structures, by this metric I would say that we actually exceeded our original plans for this sprint..
+	When planning out the sprint most of us were unfamiliar with web development and we assumed that the easiest way of tackling it would be to start by 
+	developing out the UI fully and then injecting the data from a firebase repository when we were finished. Once we began development we realized that 
+	this was in fact not the case, that without data it was hard to actually test whether the UI was working properly and that we wanted to have some idea
+	 how the data would be formatted when writing the code for the UI and widgets, so we decided to scale back the number of screens we wanted finished from 
+	 "all" to "most" to make room for the beginnings of proper data structures, by this metric I would say that we actually exceeded our original plans for this 
+	 sprint..
 
 
 

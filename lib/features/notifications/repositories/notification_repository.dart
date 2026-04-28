@@ -84,7 +84,10 @@ class NotificationRepository {
       age: 28,
       distance: '5 miles away',
       distanceValue: 5.0,
-      images: ['https://images.unsplash.com/photo-1494790108377-be9c29b29330'],
+      images: [],
+      imageURLs: [
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
+      ],
       bio: 'I love hiking and photography',
       interests: ['Photography', 'Hiking', 'Travel'],
       isOnline: true,

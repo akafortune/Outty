@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:cloudinary_flutter/cloudinary_context.dart';
 import 'package:cloudinary_flutter/cloudinary_object.dart';
@@ -156,9 +157,9 @@ class PhotoUploadScreen extends StatelessWidget {
                                               ),
                                               onTap: () {
                                                 Navigator.pop(context);
-                                                provider.removePhoto(
-                                                  provider.photos[index],
-                                                );
+                                                // provider.removePhoto(
+                                                //   provider.photos[index],
+                                                // );
                                               },
                                             ),
                                           ],
@@ -203,8 +204,8 @@ class PhotoUploadScreen extends StatelessWidget {
                               child: hasPhoto
                                   ? ClipRRect(
                                       borderRadius: BorderRadius.circular(16),
-                                      child: Image.file(
-                                        File(provider.photos[index]),
+                                      child: Image.memory(
+                                        provider.photos[index],
                                         fit: BoxFit.cover,
                                       ),
                                     )
@@ -260,7 +261,7 @@ class PhotoUploadScreen extends StatelessWidget {
 
   void _showFullScreenImage(
     BuildContext context,
-    String imagePath,
+    Uint8List imagePath,
     bool isDarkMode,
   ) {
     Navigator.of(context).push(
@@ -281,7 +282,7 @@ class PhotoUploadScreen extends StatelessWidget {
                 maxScale: 4,
                 child: Hero(
                   tag: imagePath,
-                  child: Image.file(File(imagePath), fit: BoxFit.contain),
+                  child: Image.memory(imagePath, fit: BoxFit.contain),
                 ),
               ),
             ),

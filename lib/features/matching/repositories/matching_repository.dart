@@ -1,6 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:convert';
 import '../models/match_criteria.dart';
 import '../models/match_result.dart';
@@ -10,89 +14,6 @@ import '../models/exclusive_content.dart';
 class MatchingRepository {
   final rb = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
-
-  final List<MatchResult> _mockProfiles = [
-    MatchResult(
-      id: '1',
-      name: 'Jessica',
-      age: 26,
-      distance: '3 miles away',
-      distanceValue: 3.0,
-      images: ['images/user11.jpg', 'images/user12.jpg'],
-      bio:
-          'Love hiking and outdoor adventures. Looking for someone to explore with!',
-      interests: ['Hiking', 'Photography', 'Travel'],
-      isOnline: true,
-      occupation: 'Photographer',
-      education: 'Art Institute',
-      badges: custom_badge.Badge.allBadges,
-    ),
-    MatchResult(
-      id: '2',
-      name: 'Michael',
-      age: 28,
-      distance: '5 miles away',
-      distanceValue: 5.0,
-      images: ['images/user51.jpg', 'images/user52.jpg'],
-      bio:
-          'Coffee enthusiast and book lover. Let\'s chat about our favorite novels!',
-      interests: ['Reading', 'Coffee', 'Music'],
-      isOnline: false,
-      occupation: 'Writer',
-      education: 'NYU',
-      badges: [custom_badge.Badge.allBadges[0]],
-    ),
-    MatchResult(
-      id: '3',
-      name: 'Sophia',
-      age: 24,
-      distance: '2 miles away',
-      distanceValue: 2.0,
-      images: [
-        'images/user21.jpg',
-        'images/user22.jpg',
-        'images/user23.jpg',
-        'images/user24.jpg',
-        'images/user25.jpg',
-      ],
-      bio:
-          'Foodie and yoga instructor. Always looking for new restaurants to try!',
-      interests: ['Yoga', 'Cooking', 'Restaurants'],
-      isOnline: true,
-      occupation: 'Yoga Instructor',
-      education: 'UCLA',
-      badges: [custom_badge.Badge.allBadges[1]],
-    ),
-    MatchResult(
-      id: '4',
-      name: 'David',
-      age: 29,
-      distance: '1 miles away',
-      distanceValue: 1.0,
-      images: ['images/user41.jpg'],
-      bio:
-          'Tech enthusiast and fitness lover. Looking for someone to go on runs with!',
-      interests: ['Technology', 'Fitness', 'Running', 'Cooking'],
-      isOnline: true,
-      occupation: 'Software Engineer',
-      education: 'MIT',
-      badges: [custom_badge.Badge.allBadges[2]],
-    ),
-    MatchResult(
-      id: '5',
-      name: 'Emma',
-      age: 27,
-      distance: '4 miles away',
-      distanceValue: 4.0,
-      images: ['images/user31.jpg', 'images/user32.jpeg'],
-      bio: 'Art lover and museum enthusiast. Always up for cultural events!',
-      interests: ['Art', 'Museums', 'Culture', 'History'],
-      isOnline: false,
-      occupation: 'Curator',
-      education: 'School of Visual Arts',
-      badges: [],
-    ),
-  ];
 
   final List<ExclusiveContent> _mockExclusiveContent = [
     ExclusiveContent(
@@ -195,40 +116,48 @@ Join our exclusive masterclass with insights from top dating coaches and relatio
   Future<List<MatchResult>> getMatches(MatchCriteria criteria) async {
     var userID = FirebaseAuth.instance.currentUser!.uid;
 
-    var filteredDocs;
-
     final fbDocs = await FirebaseFirestore.instance
         .collection("Users")
         .where("userID", isNotEqualTo: userID)
         .get();
-    // List<MatchResult> filteredMatches = _mockProfiles.where((match) {
-    //   bool ageMatch =
-    //       match.age >= criteria.minAge && match.age <= criteria.maxAge;
-    //   bool genderMatch = criteria.gender == 'All' || criteria.gender == 'Both';
-    //   bool onlineMatch = !criteria.onlineOnly || match.isOnline;
-    //   bool distanceMatch = true;
-    //   bool interestMatch =
-    //       criteria.interests.isEmpty ||
-    //       criteria.interests.any(
-    //         (interest) => match.interests.contains(interest),
-    //       );
-
-    //   return ageMatch &&
-    //       genderMatch &&
-    //       onlineMatch &&
-    //       distanceMatch &&
-    //       interestMatch;
-    // }).toList();
 
     List<MatchResult> filteredMatches = fbDocs.docs
         .map((doc) => MatchResult.fromFirestore(doc.data()))
         .toList();
 
+    final supabase = Supabase.instance.client;
+    List<MatchResult> finalMatches = <MatchResult>[];
+
+    for (MatchResult match in filteredMatches) {
+      List<Uint8List> imageBytesList = [];
+
+      debugPrint(
+        'Processing match: ${match.name} with image URLs: ${match.imageURLs}',
+      );
+
+      for (int i = 0; i < match.imageURLs.length - 1; i++) {
+        final path = match.imageURLs[i];
+
+        debugPrint("Downloading image from path: $path");
+
+        try {
+          imageBytesList.add(
+            await supabase.storage.from('Images').download(path),
+          );
+        } catch (e) {
+          debugPrint("Error downloading image from path: $path - $e");
+        }
+      }
+
+      match = match.copyWith(images: imageBytesList);
+      finalMatches.add(match);
+    }
+
     if (!criteria.incognitoMode || !_isPremium) {
       _updateLastActive();
     }
 
-    return filteredMatches;
+    return finalMatches;
   }
 
   Future<void> _updateLastActive() async {
@@ -238,9 +167,22 @@ Join our exclusive masterclass with insights from top dating coaches and relatio
   Future<MatchResult> getMatchById(String matchId) async {
     await Future.delayed(const Duration(milliseconds: 500));
 
-    final match = _mockProfiles.firstWhere(
-      (match) => match.id == matchId,
-      orElse: () => throw Exception('Match not found'),
+    final match = MatchResult(
+      id: matchId,
+      name: 'Test User',
+      age: 25,
+      distance: '5 miles away',
+      distanceValue: 5.0,
+      images: [],
+      imageURLs: [
+        'https://images.unsplash.com/photo-1544005313-94ddf0286df2',
+        'https://images.unsplash.com/photo-1524504388940-b1c1722653e1',
+      ],
+      bio: 'This is a test profile with distance 5 miles away',
+      interests: ['Testing', 'Distance Sorting'],
+      isOnline: true,
+      occupation: 'Tester',
+      education: 'Test University',
     );
 
     return match;
@@ -341,10 +283,8 @@ Join our exclusive masterclass with insights from top dating coaches and relatio
       age: 25,
       distance: '$distanceValue miles away',
       distanceValue: distanceValue,
-      images: [
-        'https://images.unsplash.com/photo-1544005313-94ddf0286df2',
-        'https://images.unsplash.com/photo-1524504388940-b1c1722653e1',
-      ],
+      imageURLs: [],
+      images: [],
       bio: 'This is a test profile with distance $distanceValue miles away',
       interests: ['Testing', 'Distance Sorting'],
       isOnline: true,

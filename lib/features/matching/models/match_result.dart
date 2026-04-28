@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'badge.dart' as custom_badge;
 
 class MatchResult {
@@ -6,7 +7,8 @@ class MatchResult {
   final int age;
   final String distance;
   final double distanceValue;
-  final List<String> images;
+  final List<Uint8List> images;
+  final List<String> imageURLs;
   final String bio;
   final List<String> interests;
   final bool isOnline;
@@ -21,6 +23,7 @@ class MatchResult {
     required this.distance,
     required this.distanceValue,
     required this.images,
+    required this.imageURLs,
     required this.bio,
     required this.interests,
     required this.isOnline,
@@ -35,7 +38,8 @@ class MatchResult {
     int? age,
     String? distance,
     double? distanceValue,
-    List<String>? images,
+    List<Uint8List>? images,
+    List<String>? imageURLs,
     String? bio,
     List<String>? interests,
     bool? isOnline,
@@ -50,6 +54,7 @@ class MatchResult {
       distance: distance ?? this.distance,
       distanceValue: distanceValue ?? this.distanceValue,
       images: images ?? this.images,
+      imageURLs: imageURLs ?? this.imageURLs,
       bio: bio ?? this.bio,
       interests: interests ?? this.interests,
       isOnline: isOnline ?? this.isOnline,
@@ -67,6 +72,7 @@ class MatchResult {
       'distance': distance,
       'distanceValue': distanceValue,
       'images': images,
+      'imageURLs': imageURLs,
       'bio': bio,
       'interests': interests,
       'isOnline': isOnline,
@@ -76,41 +82,42 @@ class MatchResult {
     };
   }
 
-  // factory MatchResult.fromMap(Map<String, dynamic> map) {
-  //   return MatchResult(
-  //     id: map['id'] ?? '',
-  //     name: map['name'] ?? '',
-  //     age: map['age'] ?? '',
-  //     distance: map['distance'] ?? '',
-  //     distanceValue: map['distanceValue'] ?? 0.0,
-  //     images: List<String>.from(map['images'] ?? []),
-  //     bio: map['bio'] ?? '',
-  //     interests: List<String>.from(map['interests'] ?? []),
-  //     isOnline: map['isOnline'] ?? false,
-  //     occupation: map['occupation'] ?? '',
-  //     education: map['education'] ?? '',
-  //     badges: List<custom_badge.Badge>.from(
-  //       map['badges']?.map((e) => custom_badge.Badge.fromMap(e)) ?? [],
-  //     ),
-  //   );
-  // }
+  factory MatchResult.fromMap(Map<String, dynamic> map) {
+    return MatchResult(
+      id: map['id'] ?? '',
+      name: map['name'] ?? '',
+      age: map['age'] ?? '',
+      distance: map['distance'] ?? '',
+      distanceValue: map['distanceValue'] ?? 0.0,
+      images: [],
+      imageURLs: List<String>.from(map['photos'] ?? []),
+      bio: map['bio'] ?? '',
+      interests: List<String>.from(map['interests'] ?? []),
+      isOnline: map['isOnline'] ?? false,
+      occupation: map['occupation'] ?? '',
+      education: map['education'] ?? '',
+      badges: List<custom_badge.Badge>.from(
+        map['badges']?.map((e) => custom_badge.Badge.fromMap(e)) ?? [],
+      ),
+    );
+  }
 
   factory MatchResult.fromFirestore(Map<String, dynamic> map) {
-
-    List<String> imageList  = map['photos'].toString().split(',');
+    List<String> imageURLList = map['photos'].toString().split(',');
     List<String> interestList = map['interests'].toString().split(',');
 
     return MatchResult(
       id: map['userID'] ?? '',
       name: map['name'] ?? '',
-      age:  25,
+      age: 25,
       distance: 'demo distance',
       distanceValue: 5.0,
-      images: imageList,
+      images: [],
+      imageURLs: imageURLList,
       bio: map['bio'] ?? '',
       interests: interestList,
       isOnline: map['isOnline'] ?? false,
-      occupation:  'demo job',
+      occupation: 'demo job',
       education: 'demo education',
       badges: List<custom_badge.Badge>.from(
         map['badges']?.map((e) => custom_badge.Badge.fromMap(e)) ?? [],

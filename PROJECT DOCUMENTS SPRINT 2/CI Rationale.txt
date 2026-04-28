@@ -11,4 +11,6 @@ Emerging Software Engineering Processes
 CI Tool Rationale
 
 
-        For our continuous integration we chose to go with the Codemagic CI tool. It was recommended in the flutter documentation, it’s integration is automatic and absolutely pain free, only requiring a few clicks, and it supports all of the platforms we would like to build to (android, apple and web).
+        For our continuous integration we chose to go with the Codemagic CI tool. It was recommended in the flutter documentation, it’s 
+        integration is automatic and absolutely pain free, only requiring a few clicks, and it supports all of the platforms we would like 
+        to build to (android, apple and web).

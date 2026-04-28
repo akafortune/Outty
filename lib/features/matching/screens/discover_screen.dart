@@ -3,6 +3,7 @@ import 'package:outty/core/constants/color_constants.dart';
 import 'package:outty/core/routes/route_names.dart';
 import 'package:outty/features/matching/models/match_result.dart';
 import 'package:outty/features/matching/providers/matching_provider.dart';
+import 'package:outty/features/matching/repositories/matching_repository.dart';
 import 'package:outty/features/matching/widgets/image_gesture_detector.dart';
 import 'package:outty/shared/layouts/main_layout.dart';
 import 'package:provider/provider.dart';
@@ -234,7 +235,7 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                                   },
                                   itemCount: profile.images.length,
                                   itemBuilder: (context, index) {
-                                    return Image.asset(
+                                    return Image.memory(
                                       profile.images[index],
                                       fit: BoxFit.cover,
                                     );
@@ -318,41 +319,38 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                                     Wrap(
                                       spacing: 8,
                                       runSpacing: 8,
-                                      children:
-                                          (profile.interests)
-                                              .map((interest) {
-                                                return Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                    horizontal: 12,
-                                                    vertical: 6,
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white
-                                                        .withValues(alpha: 0.2),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          20,
-                                                        ),
-                                                    border: Border.all(
-                                                      color: Colors.white
-                                                          .withValues(
-                                                            alpha: 0.3,
-                                                          ),
-                                                      width: 1,
-                                                    ),
-                                                  ),
-                                                  child: Text(
-                                                    interest,
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                );
-                                              })
-                                              .toList(),
+                                      children: (profile.interests).map((
+                                        interest,
+                                      ) {
+                                        return Container(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 12,
+                                            vertical: 6,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white.withValues(
+                                              alpha: 0.2,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              20,
+                                            ),
+                                            border: Border.all(
+                                              color: Colors.white.withValues(
+                                                alpha: 0.3,
+                                              ),
+                                              width: 1,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            interest,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
                                     ),
                                   ],
                                 ),

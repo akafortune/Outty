@@ -61,12 +61,12 @@ void main() async {
         repository: OnboardingRepository(),
       );
 
-      provider.addPhoto(
-        'https://images.unsplash.com/photo-1524504388940-b1c1722653e1',
-      );
-      provider.addPhoto(
-        'https://images.unsplash.com/photo-1544005313-94ddf0286df2',
-      );
+      // provider.addPhoto(
+      //   //'https://images.unsplash.com/photo-1524504388940-b1c1722653e1',
+      // );
+      // provider.addPhoto(
+      //   //'https://images.unsplash.com/photo-1544005313-94ddf0286df2',
+      // );
 
       final urls = [provider.photos[0], provider.photos[1]];
 
@@ -81,12 +81,12 @@ void main() async {
         repository: OnboardingRepository(),
       );
 
-      provider.addPhoto(
-        'https://images.unsplash.com/photo-1524504388940-b1c1722653e1',
-      );
-      provider.addPhoto(
-        'https://images.unsplash.com/photo-1544005313-94ddf0286df2',
-      );
+      // provider.addPhoto(
+      //   //'https://images.unsplash.com/photo-1524504388940-b1c1722653e1',
+      // );
+      // provider.addPhoto(
+      //   //'https://images.unsplash.com/photo-1544005313-94ddf0286df2',
+      // );
       provider.removePhoto(
         'https://images.unsplash.com/photo-1524504388940-b1c1722653e1',
       );
