@@ -22,4 +22,6 @@ class RouteNames {
   static const String chat = '/chat';
   static const String profile = '/profile';
   static const String notification = '/notification';
+
+  static const String editProfile = '/edit-profile';
 }

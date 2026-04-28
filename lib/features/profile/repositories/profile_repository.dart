@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:outty/features/profile/models/profile_details.dart';
 import 'package:outty/features/profile/models/profile_photo.dart';
 
@@ -61,7 +63,22 @@ class ProfileRepository {
   }
 
   Future<void> updateProfile(ProfileDetails profile) async {
-    await Future.delayed(const Duration(milliseconds: 1000));
+    String userID = await FirebaseAuth.instance.currentUser!.uid;
+
+    await FirebaseFirestore.instance
+        .collection("Users")
+        .where('userID', isEqualTo: userID)
+        .get()
+        .then((querySnapshot) {
+          var userDoc = querySnapshot.docs.first;
+
+          userDoc.reference.update({
+            "bio" : profile.bio,
+            "age" : profile.age,
+            "name" : profile.name
+          });
+        }
+      );
   }
 
   Future<void> updatePhotos(List<ProfilePhoto> photos) async {

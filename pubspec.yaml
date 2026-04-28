@@ -44,6 +44,12 @@ dependencies:
   firebase_core: ^4.6.0
   firebase_auth: ^6.3.0
   cloud_firestore: ^6.3.0
+  cloudinary_flutter: ^1.0.0
+  cloudinary_url_gen: ^1.0.0
+  dio: ^5.9.2
+  http_parser: ^4.1.2
+  http: ^1.6.0
+  supabase_flutter: ^2.12.4
 
 dev_dependencies:
   flutter_test:

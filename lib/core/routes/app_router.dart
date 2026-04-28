@@ -15,6 +15,7 @@ import 'package:outty/features/onboarding/screens/location_permission_screen.dar
 import 'package:outty/features/onboarding/screens/photo_upload_screen.dart';
 import 'package:outty/features/onboarding/screens/profile_setup_screen.dart';
 import 'package:outty/features/onboarding/screens/welcome_screen.dart';
+import 'package:outty/features/profile/screens/edit_profile_screen.dart';
 import 'package:outty/features/profile/screens/profile_screen.dart';
 import 'package:outty/features/splash/screens/splash_screen.dart';
 
@@ -74,6 +75,8 @@ class AppRouter {
 
       case RouteNames.notification:
         return MaterialPageRoute(builder: (_) => const NotificationsScreen());
+      case RouteNames.editProfile:
+        return MaterialPageRoute(builder: (_) => const EditProfileScreen());
 
       default:
         return MaterialPageRoute(

@@ -89,4 +89,6 @@ class AppStrings {
       "password must be at least 6 characters";
   static const String passwordsDoNotMatch = "Passwords do not match";
   static const String fieldRequired = "This field is required";
+
+  static const String cloudinaryID = "dvoyyov97";
 }

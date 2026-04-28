@@ -16,11 +16,17 @@ import 'package:outty/firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:outty/app.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  await Supabase.initialize(
+      url: 'https://hgidnniihheisqahstor.supabase.co',
+      anonKey: 'sb_publishable_pmejkrmWKChdlH7GrofJzA_WKUF8evu',
+    );
 
   try {
     final prefs = await SharedPreferences.getInstance();

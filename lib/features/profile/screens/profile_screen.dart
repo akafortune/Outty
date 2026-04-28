@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:outty/core/constants/color_constants.dart';
 import 'package:outty/core/constants/text_styles.dart';
+import 'package:outty/core/routes/route_names.dart';
 import 'package:outty/features/matching/providers/matching_provider.dart';
 import 'package:outty/shared/layouts/main_layout.dart';
 import 'package:provider/provider.dart';
@@ -179,7 +180,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Column(
                       children: [
                         ElevatedButton.icon(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, RouteNames.editProfile);
+                          },
                           label: Text('Edit Profile'),
                           icon: Icon(Icons.edit),
                           style: ElevatedButton.styleFrom(

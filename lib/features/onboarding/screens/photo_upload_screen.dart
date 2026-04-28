@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:cloudinary_flutter/cloudinary_context.dart';
+import 'package:cloudinary_flutter/cloudinary_object.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:outty/app.dart';
@@ -15,6 +17,7 @@ class PhotoUploadScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CloudinaryObject.fromCloudName(cloudName: AppStrings.cloudinaryID);
     final provider = context.watch<OnboardingProvider>();
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final textColor = isDarkMode ? Colors.white : AppColors.textPrimaryDark;
@@ -341,7 +344,7 @@ class PhotoUploadScreen extends StatelessWidget {
                     );
 
                     if (image != null) {
-                      provider.addPhoto(image.path);
+                      provider.addPhoto(image);
                     }
                   },
                 ),
@@ -367,7 +370,7 @@ class PhotoUploadScreen extends StatelessWidget {
                     );
 
                     if (image != null) {
-                      provider.addPhoto(image.path);
+                      provider.addPhoto(image);
                     }
                   },
                 ),
