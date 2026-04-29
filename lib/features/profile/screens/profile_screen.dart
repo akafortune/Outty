@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:outty/core/routes/route_names.dart';
 import 'package:outty/features/matching/providers/matching_provider.dart';
 import 'package:outty/shared/layouts/main_layout.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -24,16 +27,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final String uid = FirebaseAuth.instance.currentUser!.uid;
     var db = FirebaseFirestore.instance;
 
+    Future<List<Uint8List>> GetImages(List<String> urls) async {
+      final supabase = Supabase.instance.client;
+
+      List<Uint8List> imageBytesList = [];
+
+      for (int i = 0; i < urls.length - 1; i++) {
+        if (urls[i].isEmpty == false) {
+          final path = urls[i];
+          try {
+            imageBytesList.add(
+              await supabase.storage.from('Images').download(path),
+            );
+          } catch (e) {
+            debugPrint("Error downloading image from path: $path - $e");
+          }
+        }
+      }
+
+      userDoc['images'] = imageBytesList;
+      return imageBytesList;
+    }
+
     Map<String, dynamic> user = {
       'name': userDoc['name'] ?? '',
       'age': 27,
       'location': 'New York, NY',
       'bio': userDoc['bio'] ?? '',
-      'images': [
-        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e',
-        'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d',
-        'https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6',
-      ],
+      'images': ['62cfeb4a-293c-4a11-8910-17af2d6eff95'],
       'interests': [
         'Hiking',
         'Photography',
@@ -53,16 +74,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     List<String> GetPhotoList() {
       List<String> photoList = userDoc['photos'].toString().split(',');
+      debugPrint("Photo list from Firestore: $photoList");
       return photoList;
     }
 
-    void UpdateUserDisplay() {
+    void UpdateUserDisplay() async {
       user = {
         'name': userDoc['name'] ?? '',
         'age': 27,
         'location': 'New York, NY',
         'bio': userDoc['bio'] ?? '',
-        'images': GetPhotoList(),
+        'images': await GetImages(GetPhotoList()),
         'interests': GetInterestList(),
         'occupation': 'Software Developer',
         'education': 'Stanford University',
@@ -79,6 +101,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             UpdateUserDisplay();
             return userDoc;
           });
+    }
+
+    Uint8List _getImageBinary(dynamicList) {
+      List<int> intList = dynamicList
+          .cast<int>()
+          .toList(); //This is the magical line.
+      Uint8List data = Uint8List.fromList(intList);
+      return data;
     }
 
     return FutureBuilder(
@@ -99,8 +129,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     background: Stack(
                       fit: StackFit.expand,
                       children: [
-                        Image.network(
-                          user['images'][0],
+                        Image.memory(
+                          _getImageBinary(user['images'][0]),
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return Container(
@@ -181,7 +211,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         ElevatedButton.icon(
                           onPressed: () {
-                            Navigator.pushNamed(context, RouteNames.editProfile);
+                            Navigator.pushNamed(
+                              context,
+                              RouteNames.editProfile,
+                            );
                           },
                           label: Text('Edit Profile'),
                           icon: Icon(Icons.edit),
