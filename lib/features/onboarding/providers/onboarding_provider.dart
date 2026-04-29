@@ -29,6 +29,7 @@ class OnboardingProvider extends ChangeNotifier {
   List<Uint8List> _photos = [];
   List<String> _photoURLs = [];
   bool _locationPermissionGranted = false;
+  int _difficulty = 0;
 
   String get name => _name;
   String get bio => _bio;
@@ -38,11 +39,17 @@ class OnboardingProvider extends ChangeNotifier {
   List<Uint8List> get photos => _photos;
   List<String> get photoURLs => _photoURLs;
   bool get locationPermissionGranted => _locationPermissionGranted;
+  int get difficulty => _difficulty;
 
   var db = FirebaseFirestore.instance;
 
   void updateName(String name) {
     _name = name;
+    notifyListeners();
+  }
+
+  void updateDifficulty(int difficulty){
+    _difficulty = difficulty;
     notifyListeners();
   }
 
@@ -106,6 +113,7 @@ class OnboardingProvider extends ChangeNotifier {
       'bio': _bio,
       'birthDate': _birthDate?.toIso8601String(),
       'gender': _gender,
+      'difficulty' : difficulty,
       'interests': _interests,
       'photos': _photoURLs,
       'locationPermissionGranted': _locationPermissionGranted,
@@ -128,6 +136,7 @@ class OnboardingProvider extends ChangeNotifier {
       "gender": gender,
       "interests": interestString,
       "photos": photoString,
+      'difficulty' : difficulty,
       "userID": uid,
       "likes": [],
       "dislikes": [],
