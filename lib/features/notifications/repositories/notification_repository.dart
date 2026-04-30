@@ -85,6 +85,7 @@ class NotificationRepository {
       distance: '5 miles away',
       distanceValue: 5.0,
       images: [],
+      difficulty: 0,
       imageURLs: [
         'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
       ],

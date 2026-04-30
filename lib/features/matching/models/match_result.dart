@@ -15,6 +15,8 @@ class MatchResult {
   final String occupation;
   final String education;
   final List<custom_badge.Badge> badges;
+  final int difficulty;
+  final double compatibility;
 
   const MatchResult({
     required this.id,
@@ -29,7 +31,9 @@ class MatchResult {
     required this.isOnline,
     required this.occupation,
     required this.education,
+    required this.difficulty,
     this.badges = const [],
+    this.compatibility = 0
   });
 
   MatchResult copyWith({
@@ -45,7 +49,9 @@ class MatchResult {
     bool? isOnline,
     String? occupation,
     String? education,
+    int? difficulty,
     List<custom_badge.Badge>? badges,
+    double? compatibility
   }) {
     return MatchResult(
       id: id ?? this.id,
@@ -60,7 +66,9 @@ class MatchResult {
       isOnline: isOnline ?? this.isOnline,
       occupation: occupation ?? this.occupation,
       education: education ?? this.education,
+      difficulty: difficulty ?? this.difficulty,
       badges: badges ?? this.badges,
+      compatibility: compatibility ?? this.compatibility
     );
   }
 
@@ -78,6 +86,7 @@ class MatchResult {
       'isOnline': isOnline,
       'occupation': occupation,
       'education': education,
+      'difficulty' : difficulty,
       'badges': badges.map((e) => e.toMap()).toList(),
     };
   }
@@ -96,6 +105,7 @@ class MatchResult {
       isOnline: map['isOnline'] ?? false,
       occupation: map['occupation'] ?? '',
       education: map['education'] ?? '',
+      difficulty: map['difficulty'] ?? 0,
       badges: List<custom_badge.Badge>.from(
         map['badges']?.map((e) => custom_badge.Badge.fromMap(e)) ?? [],
       ),
@@ -119,6 +129,7 @@ class MatchResult {
       isOnline: map['isOnline'] ?? false,
       occupation: 'demo job',
       education: 'demo education',
+      difficulty: map['difficulty'] ?? 0,
       badges: List<custom_badge.Badge>.from(
         map['badges']?.map((e) => custom_badge.Badge.fromMap(e)) ?? [],
       ),

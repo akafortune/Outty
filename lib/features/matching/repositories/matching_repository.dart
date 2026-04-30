@@ -125,10 +125,22 @@ Join our exclusive masterclass with insights from top dating coaches and relatio
         .map((doc) => MatchResult.fromFirestore(doc.data()))
         .toList();
 
+    final thisUserDoc = await FirebaseFirestore.instance
+        .collection("Users")
+        .where("userID", isEqualTo: userID)
+        .get();
+
+    MatchResult userMR = thisUserDoc.docs
+        .map((doc) => MatchResult.fromFirestore(doc.data()))
+        .first;
+
     final supabase = Supabase.instance.client;
     List<MatchResult> finalMatches = <MatchResult>[];
 
     for (MatchResult match in filteredMatches) {
+      
+      double compatibilityScore = _matchingEngine(userMR, match);
+
       List<Uint8List> imageBytesList = [];
 
       debugPrint(
@@ -149,7 +161,7 @@ Join our exclusive masterclass with insights from top dating coaches and relatio
         }
       }
 
-      match = match.copyWith(images: imageBytesList);
+      match = match.copyWith(images: imageBytesList, compatibility: compatibilityScore);
       finalMatches.add(match);
     }
 
@@ -157,7 +169,51 @@ Join our exclusive masterclass with insights from top dating coaches and relatio
       _updateLastActive();
     }
 
+    finalMatches.sort((a,b) => a.compatibility.compareTo(b.compatibility));
+
     return finalMatches;
+  }
+
+  double _matchingEngine(MatchResult user, MatchResult other){
+    double compatibilityScore = 0.0;
+
+    for(String interest in user.interests){
+      if(other.interests.contains(interest)){
+        compatibilityScore += 15.0;
+      }
+    }
+
+    int difficultyDifference = user.difficulty - other.difficulty;
+
+    difficultyDifference.abs();
+
+    if(difficultyDifference <= 1){
+      compatibilityScore += 45;
+    } else if (difficultyDifference <= 3){
+      compatibilityScore += 30;
+    } else if (difficultyDifference <= 5){
+      compatibilityScore += 15;
+    } else if (difficultyDifference <= 7){
+      compatibilityScore += 0;
+    } else {
+      compatibilityScore -= 15;
+    }
+
+    double distanceDifference = user.distanceValue - other.distanceValue;
+
+    if(distanceDifference <= 5){
+      compatibilityScore += 45;
+    } else if(distanceDifference <= 15){
+      compatibilityScore += 30;
+    } else if(distanceDifference <= 25){
+      compatibilityScore += 15;
+    } else if(distanceDifference <= 40){
+      compatibilityScore += 0;
+    } else {
+      compatibilityScore -= 30;
+    }
+
+    return compatibilityScore;
   }
 
   Future<void> _updateLastActive() async {
@@ -180,6 +236,7 @@ Join our exclusive masterclass with insights from top dating coaches and relatio
       ],
       bio: 'This is a test profile with distance 5 miles away',
       interests: ['Testing', 'Distance Sorting'],
+      difficulty: 0,
       isOnline: true,
       occupation: 'Tester',
       education: 'Test University',
@@ -285,6 +342,7 @@ Join our exclusive masterclass with insights from top dating coaches and relatio
       distanceValue: distanceValue,
       imageURLs: [],
       images: [],
+      difficulty: 0,
       bio: 'This is a test profile with distance $distanceValue miles away',
       interests: ['Testing', 'Distance Sorting'],
       isOnline: true,
