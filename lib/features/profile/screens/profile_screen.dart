@@ -54,7 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       'age': 27,
       'location': 'New York, NY',
       'bio': userDoc['bio'] ?? '',
-      'images': ['62cfeb4a-293c-4a11-8910-17af2d6eff95'],
+      'images': [],
       'interests': [
         'Hiking',
         'Photography',
@@ -129,22 +129,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     background: Stack(
                       fit: StackFit.expand,
                       children: [
-                        Image.memory(
-                          _getImageBinary(user['images'][0]),
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              color: Colors.grey.shade300,
-                              child: Center(
-                                child: Icon(
-                                  Icons.image_not_supported,
-                                  size: 50,
-                                  color: Colors.grey,
-                                ),
+                        user['images'] != null && user['images'].isNotEmpty
+                            ? Image.memory(
+                                _getImageBinary(user['images'][0]),
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    color: Colors.grey.shade300,
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.image_not_supported,
+                                        size: 50,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              )
+                            : Image.asset(
+                                'assets/images/default_profile.png',
+                                fit: BoxFit.cover,
                               ),
-                            );
-                          },
-                        ),
                         Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
