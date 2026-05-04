@@ -1,0 +1,28 @@
+﻿Daily Scrum Report
+Sprint Goal: Implement photo storage and querying using Supabase, design and implement the matching algorithm, and develop the edit profile screen connected to the Firebase backend.
+
+1. What has transpired in the past 24 hours? 
+* Connor: We completed a lot of our core features so far. We've created the ability to store photos inside Supabase, started working on our matching algorithms' logic as well as updating our Trello tasks which corresponds to the decrease in story points that will appear later in this burndown graph.
+* Durgesh : Reviewed Trello tasks and project structure to understand Supabase integration and matching flow. Also analysed how the edit profile screen connects to Firebase.
+* Rahaf Kokash: Assisted with Supabase setup and explored photo upload and querying functionality.
+* Yasoda Kuchampudi: Worked on initial design and structure of the matching algorithm.
+* Micheal Ariwodo: Began work on the edit profile screen and looked into connecting it with Firebase backend.
+(Progress followed the burndown trend: slower earlier, then more visible progress as implementation tasks were completed
+2. What will we do in the next 24 hours?
+* Connor: Continue refining Supabase integration and improve the matching algorithm implementation.
+* Durgesh: Support documentation and assist with integration between frontend and backend components.
+* Rahaf Kokash: Continue working on photo upload/query features in Supabase.
+* Yasoda Kuchampudi: Further develop and test the matching algorithm.
+* Micheal Ariwodo: Complete edit profile screen and finalize Firebase connection.
+3. Impediments & Removal Plan
+Impediments:
+* Initial delays in starting implementation tasks (as reflected in early Trello activity)
+* Complexity in integrating multiple technologies (Supabase + Firebase)
+* Majority of progress driven by Connor
+
+Removal Plan:
+*  Break tasks into smaller, clearly assigned items on Trello
+*  Increase collaboration and communication among team members
+*  Start implementation earlier in the sprint
+*  Track progress regularly using burndown chart and adjust workload accordingly.
+
