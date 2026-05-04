@@ -33,7 +33,7 @@ class MatchResult {
     required this.education,
     required this.difficulty,
     this.badges = const [],
-    this.compatibility = 0
+    this.compatibility = 0,
   });
 
   MatchResult copyWith({
@@ -51,7 +51,7 @@ class MatchResult {
     String? education,
     int? difficulty,
     List<custom_badge.Badge>? badges,
-    double? compatibility
+    double? compatibility,
   }) {
     return MatchResult(
       id: id ?? this.id,
@@ -68,7 +68,7 @@ class MatchResult {
       education: education ?? this.education,
       difficulty: difficulty ?? this.difficulty,
       badges: badges ?? this.badges,
-      compatibility: compatibility ?? this.compatibility
+      compatibility: compatibility ?? this.compatibility,
     );
   }
 
@@ -86,7 +86,7 @@ class MatchResult {
       'isOnline': isOnline,
       'occupation': occupation,
       'education': education,
-      'difficulty' : difficulty,
+      'difficulty': difficulty,
       'badges': badges.map((e) => e.toMap()).toList(),
     };
   }
@@ -138,4 +138,56 @@ class MatchResult {
 
   List<custom_badge.Badge> get premiumBadges =>
       badges.where((badge) => badge.isPremium).toList();
+
+  double InterestOverlap(MatchResult other) {
+    return interests.toSet().intersection(other.interests.toSet()).length * 15;
+  }
+
+  double DistanceScore(MatchResult other) {
+    double compatibilityScore = 0.0;
+
+    double distanceDifference = this.distanceValue - other.distanceValue;
+
+    if (distanceDifference <= 5) {
+      compatibilityScore += 45;
+    } else if (distanceDifference <= 15) {
+      compatibilityScore += 30;
+    } else if (distanceDifference <= 25) {
+      compatibilityScore += 15;
+    } else if (distanceDifference <= 40) {
+      compatibilityScore += 0;
+    } else {
+      compatibilityScore -= 30;
+    }
+
+    return compatibilityScore;
+  }
+
+  double DifficultyScore(MatchResult other) {
+    double compatibilityScore = 0.0;
+
+    int difficultyDifference = (this.difficulty - other.difficulty).abs();
+
+    if (difficultyDifference == 0) {
+      compatibilityScore += 40;
+    } else if (difficultyDifference == 1) {
+      compatibilityScore += 20;
+    } else if (difficultyDifference == 2) {
+      compatibilityScore += 10;
+    } else if (difficultyDifference == 3) {
+      compatibilityScore += 0;
+    } else {
+      compatibilityScore -= 20;
+    }
+
+    return compatibilityScore;
+  }
+
+  double calculateCompatibility(MatchResult other) {
+    double interestScore = InterestOverlap(other);
+    double distanceScore = DistanceScore(other);
+    double difficultyScore = DifficultyScore(other);
+
+    return interestScore + distanceScore + difficultyScore;
+  }
 }

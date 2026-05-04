@@ -1,0 +1,16 @@
+﻿Team 2:
+(Connor McDonald, Michael Ariwodo, Durgesh Chigurupati, Yasoda Kuchampudi, Rahaf Kokash)
+May 5th, 2026,
+Emerging Software Engineering Processes
+
+
+Sprint #3 Forecast
+
+
+        Our forecast for this sprint is that we will be able to finish around 60-70 story points inside of this next sprint, 
+        this is consistent with the previous sprint in which we accomplished around 70 story points. We are under a bit more 
+        of a time crunch this time, with only around 2 weeks to accomplish our goal rather than a month, however, much like last 
+        sprint, we are far more familiar with the tools we are using than we were last sprint. A lot of this sprint involves interacting 
+        with a database or creating new pages via flutter, both things that we have done up until this point. This makes us 
+        confident that via a Yesterday’s Weather analysis, we can complete the same amount of story points in two weeks that 
+        previously took us a month.

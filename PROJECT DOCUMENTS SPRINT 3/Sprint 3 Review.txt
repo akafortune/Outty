@@ -1,0 +1,35 @@
+﻿Team 2:
+(Connor McDonald, Michael Ariwodo, Durgesh Chigurupati, Yasoda Kuchampudi, Rahaf Kokash)
+April 19th, 2026,
+Emerging Software Engineering Processes
+
+Sprint Review
+
+
+In this sprint the team wanted to achieve the following:
+* This sprint was about implementing backend photo storage and cleaning up remaining tasks, this includes:
+   * All tasks related to implementing photo storage
+      * Picking a photo storage system
+      * Create the storage backend
+      * Store users photos when they create their account
+         * Write the path of the photos to the firebase backend
+      * Query users photos on the discover screen
+      * Query users photos on the profile screen
+   * Design the matching algorithm
+   * Creating the matching algorithm
+   * Create the edit profile screen
+      * Allow users to edit their name, bio, education, profession, etc
+      * Write all of this to the users firebase entry
+   * Create the difficulty screen
+      * Implement a slider for users to choose their preferred thrill level for dates during onboarding
+      * Write this score to the firebase backend
+
+
+In the actual term of this sprint we achieved:
+During this sprint we achieved all of our stated goals.
+
+
+Our rationale for the missed items + extra items
+        We did not miss any items and we did not achieve any extra items, this sprint was incredibly short and
+         was also the final thus we had just enough pressure to fulfill all of our goals but not enough wiggle 
+         room to achieve anything extra.

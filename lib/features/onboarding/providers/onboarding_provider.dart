@@ -48,7 +48,7 @@ class OnboardingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateDifficulty(int difficulty){
+  void updateDifficulty(int difficulty) {
     _difficulty = difficulty;
     notifyListeners();
   }
@@ -113,7 +113,7 @@ class OnboardingProvider extends ChangeNotifier {
       'bio': _bio,
       'birthDate': _birthDate?.toIso8601String(),
       'gender': _gender,
-      'difficulty' : difficulty,
+      'difficulty': difficulty,
       'interests': _interests,
       'photos': _photoURLs,
       'locationPermissionGranted': _locationPermissionGranted,
@@ -136,7 +136,7 @@ class OnboardingProvider extends ChangeNotifier {
       "gender": gender,
       "interests": interestString,
       "photos": photoString,
-      'difficulty' : difficulty,
+      'difficulty': difficulty,
       "userID": uid,
       "likes": [],
       "dislikes": [],
