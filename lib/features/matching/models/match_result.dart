@@ -17,6 +17,7 @@ class MatchResult {
   final List<custom_badge.Badge> badges;
   final int difficulty;
   final double compatibility;
+  final String? instagramUsername;
 
   const MatchResult({
     required this.id,
@@ -34,6 +35,7 @@ class MatchResult {
     required this.difficulty,
     this.badges = const [],
     this.compatibility = 0,
+    this.instagramUsername,
   });
 
   MatchResult copyWith({
@@ -52,6 +54,7 @@ class MatchResult {
     int? difficulty,
     List<custom_badge.Badge>? badges,
     double? compatibility,
+    String? instagramUsername,
   }) {
     return MatchResult(
       id: id ?? this.id,
@@ -69,6 +72,7 @@ class MatchResult {
       difficulty: difficulty ?? this.difficulty,
       badges: badges ?? this.badges,
       compatibility: compatibility ?? this.compatibility,
+      instagramUsername: instagramUsername ?? this.instagramUsername,
     );
   }
 
@@ -88,6 +92,7 @@ class MatchResult {
       'education': education,
       'difficulty': difficulty,
       'badges': badges.map((e) => e.toMap()).toList(),
+      'instagramUsername': instagramUsername,
     };
   }
 
@@ -109,6 +114,7 @@ class MatchResult {
       badges: List<custom_badge.Badge>.from(
         map['badges']?.map((e) => custom_badge.Badge.fromMap(e)) ?? [],
       ),
+      instagramUsername: map['instagramUsername'],
     );
   }
 
@@ -133,6 +139,7 @@ class MatchResult {
       badges: List<custom_badge.Badge>.from(
         map['badges']?.map((e) => custom_badge.Badge.fromMap(e)) ?? [],
       ),
+      instagramUsername: map['instagramUsername'],
     );
   }
 

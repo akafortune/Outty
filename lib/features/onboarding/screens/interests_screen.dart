@@ -168,7 +168,9 @@ class InterestsScreen extends StatelessWidget {
               width: double.infinity,
               padding: EdgeInsets.all(24),
               child: ElevatedButton(
-                onPressed: provider.interests.length >= 3 ? ()=> Navigator.pushNamed(context, RouteNames.locationPermission) : null,
+                onPressed: provider.interests.length >= 3
+                    ? () => Navigator.pushNamed(context, RouteNames.instagram)
+                    : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   foregroundColor: Colors.white,

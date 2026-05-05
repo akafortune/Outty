@@ -14,6 +14,7 @@ class RouteNames {
   static const String photoUpload = '/photo-upload';
   static const String interests = '/interests';
   static const String locationPermission = '/location-permission';
+  static const String instagram = '/instagram';
 
   //main app routes
   static const String discover = '/discover';

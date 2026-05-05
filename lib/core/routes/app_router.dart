@@ -10,6 +10,7 @@ import 'package:outty/features/chat/screens/chat_screen.dart';
 import 'package:outty/features/matching/screens/discover_screen.dart';
 import 'package:outty/features/matching/screens/match_details_screen.dart';
 import 'package:outty/features/notifications/screens/notifications_screen.dart';
+import 'package:outty/features/onboarding/screens/instagram_screen.dart';
 import 'package:outty/features/onboarding/screens/interests_screen.dart';
 import 'package:outty/features/onboarding/screens/location_permission_screen.dart';
 import 'package:outty/features/onboarding/screens/photo_upload_screen.dart';
@@ -77,6 +78,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const NotificationsScreen());
       case RouteNames.editProfile:
         return MaterialPageRoute(builder: (_) => const EditProfileScreen());
+      case RouteNames.instagram:
+        return MaterialPageRoute(builder: (_) => const InstagramScreen());
 
       default:
         return MaterialPageRoute(

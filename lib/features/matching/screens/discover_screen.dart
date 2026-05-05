@@ -7,6 +7,7 @@ import 'package:outty/features/matching/repositories/matching_repository.dart';
 import 'package:outty/features/matching/widgets/image_gesture_detector.dart';
 import 'package:outty/shared/layouts/main_layout.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DiscoverScreen extends StatefulWidget {
   const DiscoverScreen({super.key});
@@ -102,24 +103,6 @@ class _DiscoverScreenState extends State<DiscoverScreen>
               fontSize: 24,
             ),
           ),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.filter_list_rounded,
-                color: isDarkMode ? Colors.white70 : Colors.grey.shade700,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                _showShareOptions(context, profile);
-              },
-              icon: Icon(
-                Icons.share,
-                color: isDarkMode ? Colors.white70 : Colors.grey.shade700,
-              ),
-            ),
-          ],
           backgroundColor: isDarkMode
               ? AppColors.backgroundDark
               : Colors.grey.shade50,
@@ -287,26 +270,6 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                                         ),
                                       ],
                                     ),
-
-                                    const SizedBox(height: 4),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.location_on,
-                                          color: Colors.white70,
-                                          size: 16,
-                                        ),
-                                        const SizedBox(width: 4),
-
-                                        Text(
-                                          profile.distance,
-                                          style: TextStyle(
-                                            color: Colors.white70,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
                                     const SizedBox(height: 16),
                                     Text(
                                       profile.bio,
@@ -423,6 +386,32 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                 ),
               ),
             ),
+            profile.instagramUsername != ''
+                ? ElevatedButton(
+                    onPressed: () async {
+                      // Open Instagram profile
+                      final url =
+                          'https://instagram.com/${profile.instagramUsername}';
+                      await Uri.parse(url);
+                      if (!await launchUrl(Uri.parse(url))) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Could not open Instagram profile'),
+                            backgroundColor: Colors.red,
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            margin: EdgeInsets.all(10),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      }
+                    },
+                    child: Text('Instagram Profile'),
+                  )
+                : SizedBox.shrink(),
+            const SizedBox(height: 16),
 
             Container(
               padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),

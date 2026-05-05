@@ -51,7 +51,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> _saveProfile() async {
-    if(_formKey.currentState!.validate()){
+    if (_formKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
       });
@@ -59,19 +59,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       final provider = Provider.of<ProfileProvider>(context, listen: false);
       final currentProfile = provider.profile;
 
-      if(currentProfile!=null){
+      if (currentProfile != null) {
         final updatedProfile = currentProfile.copyWith(
           name: _nameController.text,
           age: _age,
           bio: _bioController.text,
           occupation: _occupationController.text,
           education: _educationController.text,
-          location: _locationController.text
+          location: _locationController.text,
         );
 
         await provider.updateProfile(updatedProfile);
 
-        if(mounted){
+        if (mounted) {
           setState(() {
             _isLoading = false;
           });
@@ -80,7 +80,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             const SnackBar(
               content: Text('Profile updated successfully'),
               backgroundColor: Colors.green,
-            )
+            ),
           );
 
           Navigator.pop(context);
@@ -292,75 +292,33 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 '80',
                                 style: TextStyle(
                                   color: hintColor,
-                                  fontSize: 12
+                                  fontSize: 12,
                                 ),
-                              )
+                              ),
                             ],
-                          )
+                          ),
                         ],
                       ),
                       isDarkMode: isDarkMode,
                       cardColor: cardColor,
                     ),
 
-                    const SizedBox(height: 24,),
+                    const SizedBox(height: 24),
                     _buildSectionHeader('About You', isDarkMode),
 
                     _buildCard(
                       child: _buildTextField(
-                        controller: _bioController, 
-                        labelText: 'Bio', 
-                        icon: Icons.edit_note_outlined, 
+                        controller: _bioController,
+                        labelText: 'Bio',
+                        icon: Icons.edit_note_outlined,
                         isDarkMode: isDarkMode,
                         maxLines: 4,
-                        hintText: 'Tell others about yourself'
-                      ), 
-                      isDarkMode: isDarkMode, 
-                      cardColor: cardColor
+                        hintText: 'Tell others about yourself',
+                      ),
+                      isDarkMode: isDarkMode,
+                      cardColor: cardColor,
                     ),
-
-                    const SizedBox(height: 24,),
-                    _buildSectionHeader('Location & Work', isDarkMode),
-
-                    _buildCard(
-                      child: _buildTextField(
-                        controller: _locationController, 
-                        labelText: 'Location', 
-                        icon: Icons.location_on_outlined, 
-                        isDarkMode: isDarkMode,
-                        hintText: 'City, Country'
-                      ), 
-                      isDarkMode: isDarkMode, 
-                      cardColor: cardColor
-                    ),
-
-                    const SizedBox(height: 16,),
-
-                    _buildCard(
-                      child: _buildTextField(
-                        controller: _occupationController, 
-                        labelText: 'Occupation', 
-                        icon: Icons.work_outline, 
-                        isDarkMode: isDarkMode,
-                      ), 
-                      isDarkMode: isDarkMode, 
-                      cardColor: cardColor
-                    ),
-
-                    const SizedBox(height: 16,),
-
-                    _buildCard(
-                      child: _buildTextField(
-                        controller: _educationController, 
-                        labelText: 'Education', 
-                        icon: Icons.school_outlined, 
-                        isDarkMode: isDarkMode,
-                      ), 
-                      isDarkMode: isDarkMode, 
-                      cardColor: cardColor
-                    ),
-
-                    const SizedBox(height: 32,),
+                    const SizedBox(height: 32),
 
                     CustomButton(
                       text: 'Save Changes',

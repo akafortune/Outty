@@ -27,6 +27,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final String uid = FirebaseAuth.instance.currentUser!.uid;
     var db = FirebaseFirestore.instance;
 
+    Future<void> DeleteUserData() async {
+      await db.collection("Users").where("userID", isEqualTo: uid).get().then((
+        querySnapshot,
+      ) {
+        querySnapshot.docs[0].reference.delete();
+      });
+
+      FirebaseAuth.instance.currentUser!.delete();
+    }
+
     Future<List<Uint8List>> GetImages(List<String> urls) async {
       final supabase = Supabase.instance.client;
 
@@ -78,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       return photoList;
     }
 
-    void UpdateUserDisplay() async {
+    Future<void> UpdateUserDisplay() async {
       user = {
         'name': userDoc['name'] ?? '',
         'age': 27,
@@ -92,15 +102,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     Future<void> LoadDataFromFirestore() async {
-      userDoc = await db
-          .collection("Users")
-          .where("userID", isEqualTo: uid)
-          .get()
-          .then((querySnapshot) {
-            userDoc = querySnapshot.docs[0].data();
-            UpdateUserDisplay();
-            return userDoc;
-          });
+      await db.collection("Users").where("userID", isEqualTo: uid).get().then((
+        querySnapshot,
+      ) async {
+        userDoc = querySnapshot.docs[0].data();
+        await UpdateUserDisplay();
+      });
     }
 
     Uint8List _getImageBinary(dynamicList) {
@@ -146,9 +153,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   );
                                 },
                               )
-                            : Image.asset(
-                                'assets/images/default_profile.png',
-                                fit: BoxFit.cover,
+                            : Icon(
+                                Icons.account_circle,
+                                size: 100,
+                                color: Colors.grey.shade300,
                               ),
                         Container(
                           decoration: BoxDecoration(
@@ -171,42 +179,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '${user['name']} ${user['age']}',
+                                '${user['name']}',
                                 style: AppTextStyles.h1Light.copyWith(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_on,
-                                    color: Colors.white70,
-                                    size: 16,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    user['location'],
-                                    style: TextStyle(
-                                      color: Colors.white70,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ],
-                              ),
                             ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                  actions: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.settings_outlined),
-                    ),
-                  ],
                 ),
 
                 SliverToBoxAdapter(
@@ -236,7 +221,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
 
-                        const SizedBox(height: 24),
+                        SizedBox(height: 12),
+
+                        ElevatedButton.icon(
+                          onPressed: () async {
+                            await DeleteUserData();
+                            Navigator.pushNamed(context, RouteNames.splash);
+                          },
+                          label: Text('Delete Profile'),
+                          icon: Icon(Icons.edit),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.error,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 12,
+                              horizontal: 16,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 0),
 
                         Consumer<MatchingProvider>(
                           builder: (context, matchingProvider, child) {
@@ -244,15 +251,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Premium Badges',
-                                  style: AppTextStyles.h3Light.copyWith(
-                                    color: isDarkMode
-                                        ? Colors.white
-                                        : AppColors.textPrimaryLight,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
                                 const SizedBox(height: 12),
                                 Wrap(
                                   spacing: 8,
@@ -343,63 +341,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           }).toList(),
                         ),
                         const SizedBox(height: 24),
-                        Text(
-                          'Basic Info',
-                          style: AppTextStyles.h3Light.copyWith(
-                            color: isDarkMode
-                                ? Colors.white
-                                : AppColors.textPrimaryLight,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-
-                        const SizedBox(height: 12),
-                        _infoItem(
-                          icon: Icons.work_outline,
-                          label: 'Occupation',
-                          value: user['occupation'],
-                          isDarkMode: isDarkMode,
-                        ),
-
-                        const SizedBox(height: 8),
-                        _infoItem(
-                          icon: Icons.school_outlined,
-                          label: 'Education',
-                          value: user['education'],
-                          isDarkMode: isDarkMode,
-                        ),
-
-                        const SizedBox(height: 8),
-                        _infoItem(
-                          icon: Icons.location_on_outlined,
-                          label: 'Location',
-                          value: user['location'],
-                          isDarkMode: isDarkMode,
-                        ),
-
-                        const SizedBox(height: 32),
-
-                        OutlinedButton.icon(
-                          onPressed: () {},
-                          label: Text('Settings'),
-                          icon: Icon(Icons.settings_outlined),
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: isDarkMode
-                                ? Colors.white
-                                : AppColors.textPrimaryLight,
-                            side: BorderSide(
-                              color: isDarkMode
-                                  ? Colors.grey.shade700
-                                  : Colors.grey.shade300,
-                            ),
-                            padding: EdgeInsets.symmetric(
-                              vertical: 12,
-                              horizontal: 16,
-                            ),
-                          ),
-                        ),
-
-                        const SizedBox(height: 50),
                       ],
                     ),
                   ),

@@ -88,15 +88,6 @@ class ChatListScreen extends StatelessWidget {
               ? AppColors.backgroundDark
               : Colors.grey.shade50,
           elevation: 0,
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.search,
-                color: isDarkMode ? Colors.white : Colors.grey.shade800,
-              ),
-            ),
-          ],
         ),
         body: chatProvider.isLoading
             ? Center(child: CircularProgressIndicator())

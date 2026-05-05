@@ -30,6 +30,7 @@ class OnboardingProvider extends ChangeNotifier {
   List<String> _photoURLs = [];
   bool _locationPermissionGranted = false;
   int _difficulty = 0;
+  String _instagramUsername = '';
 
   String get name => _name;
   String get bio => _bio;
@@ -65,6 +66,11 @@ class OnboardingProvider extends ChangeNotifier {
 
   void updateGender(String gender) {
     _gender = gender;
+    notifyListeners();
+  }
+
+  void updateInstagramUsername(String username) {
+    _instagramUsername = username;
     notifyListeners();
   }
 
@@ -117,6 +123,7 @@ class OnboardingProvider extends ChangeNotifier {
       'interests': _interests,
       'photos': _photoURLs,
       'locationPermissionGranted': _locationPermissionGranted,
+      'instagramUsername': _instagramUsername,
     });
 
     await commitOnboardingData();
@@ -138,6 +145,7 @@ class OnboardingProvider extends ChangeNotifier {
       "photos": photoString,
       'difficulty': difficulty,
       "userID": uid,
+      "instagramUsername": _instagramUsername,
       "likes": [],
       "dislikes": [],
       "matches": [],
